@@ -1,0 +1,44 @@
+﻿@model object
+@using AutoAdmin.Extensions
+@using System.Collections
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<div>
+    <h4></h4>
+    <hr />
+    @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", table = Model.GetType().Name }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+
+            @foreach (var property in Model.GetType().GetProperties())
+            {
+                if (property.PropertyType.IsGenericType || property.PropertyType == typeof(IEnumerable))
+                {
+                    continue;
+                }
+                @Html.LabelFor(model => property, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (property.PropertyType == typeof(DateTime))
+                    {
+                        @Html.EditorFor(model => property, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => property, new { htmlAttributes = new { @class = "form-control" } })
+                    }
+                    @Html.ValidationMessageFor(model => property, "", new { @class = "text-danger" })
+                </div>
+            }
+        </div>
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GetPrimaryKey() }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
