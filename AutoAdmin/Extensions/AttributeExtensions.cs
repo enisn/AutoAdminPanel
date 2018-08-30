@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+
+namespace AutoAdmin.Extensions
+{
+    public static class AttributeExtensions
+    {
+        public static bool HasAttribute(this MemberInfo value,Type attribute)
+        {
+           return value.GetCustomAttributes(attribute, false).Count() > 0;
+        }
+
+        public static object GetPrimaryKey(this object value)
+        {
+            foreach (var property in value.GetType().GetProperties())
+            {
+                if (property.HasAttribute(typeof(KeyAttribute)))
+                    return property.GetValue(value);
+            }
+
+            return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID")).GetValue(value);
+        }
+    }
+}

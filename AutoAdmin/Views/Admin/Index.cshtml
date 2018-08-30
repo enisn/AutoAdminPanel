@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<object>
 @using System.Collections
+@using AutoAdmin.Extensions
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -49,9 +50,9 @@
             }
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKey() }) |
+                @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKey() }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKey() })
             </td>
         </tr>
     }

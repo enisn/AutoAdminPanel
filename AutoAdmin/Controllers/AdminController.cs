@@ -12,7 +12,7 @@ namespace AutoAdmin.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        public async Task<ActionResult> Index(string table)
+        public ActionResult Index(string table)
         {
             //var list = new Models.NORTHWNDEntities().Categories.ToList();
 
@@ -31,6 +31,12 @@ namespace AutoAdmin.Controllers
         public ActionResult Create(string table)
         {
             var model = QueryHelper.GetInstance(table);
+
+            foreach (var name in QueryHelper.GetRelationsNames(table))
+            {
+                ViewData.Add(name, QueryHelper.GetMultiple(name));
+            }
+
             return View(model);
         }
 
@@ -57,6 +63,12 @@ namespace AutoAdmin.Controllers
         public ActionResult Edit(string table, int id)
         {
             var model = QueryHelper.Get(table, id);
+
+            foreach (var name in QueryHelper.GetRelationsNames(table))
+            {
+                ViewData.Add(name, QueryHelper.GetMultiple(name));
+            }
+
             return View(model);
         }
 

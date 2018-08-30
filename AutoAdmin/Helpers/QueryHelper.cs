@@ -19,6 +19,16 @@ namespace AutoAdmin.Helpers
         {
             return Activator.CreateInstance(Configuration.Context.Table(table).GetType());
         }
+        public static IEnumerable<string> GetRelationsNames(string table)
+        {
+            foreach (var property in Configuration.Context.Table(table).GetType().GetProperties())
+            {
+                if (property.PropertyType != typeof(string) && property.PropertyType.IsClass)
+                {
+                    yield return property.Name;
+                }
+            }
+        }
         public static IEnumerable GetMultiple(string table)
         {
             return Configuration.Context.Table(table) as IEnumerable;
