@@ -53,8 +53,9 @@ namespace AutoAdmin.Controllers
                 QueryHelper.Add(table,model);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
                 return View();
             }
         }
@@ -97,7 +98,8 @@ namespace AutoAdmin.Controllers
         // GET: Admin/Delete/5
         public ActionResult Delete(string table, int id)
         {
-            return View();
+            var model = QueryHelper.Get(table, id);
+            return View(model);
         }
 
         // POST: Admin/Delete/5
@@ -111,8 +113,9 @@ namespace AutoAdmin.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
                 return View();
             }
         }

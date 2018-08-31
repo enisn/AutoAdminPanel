@@ -19,6 +19,8 @@
 
         @foreach (var property in Model.GetType().GetProperties())
         {
+            if (property.PropertyType.IsGenericType) { continue; }
+
             <div class="form-group">
                 @Html.Label(property.Name, htmlAttributes: new { @class = "control-label col-md-2" })
                 @*@Html.LabelFor(model => model.GetType().GetProperty(property.Name), htmlAttributes: new { @class = "control-label col-md-2" })*@

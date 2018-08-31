@@ -10,9 +10,10 @@ namespace AutoAdmin.Extensions
 {
     public static class ContextExtensions
     {
-        public static dynamic Table(this DbContext ctx, string tableName)
+        public static DbSet Table(this DbContext ctx, string tableName)
         {
-            return ctx.GetType().GetProperty(tableName)?.GetValue(ctx); 
+            //return ctx.GetType().GetProperty(tableName)?.GetValue(ctx); 
+            return ctx.Set(ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0]);
         }
 
         public static object CopyFrom(this object to, object from)
@@ -28,7 +29,8 @@ namespace AutoAdmin.Extensions
         {
             foreach (var property in to.GetType().GetProperties())
             {
-                property.SetValue(to, from[property.Name]);
+                if (from[property.Name] == null) continue;
+                property.SetValue(to, Convert.ChangeType(from[property.Name], property.PropertyType));
             }
             return to;
         }

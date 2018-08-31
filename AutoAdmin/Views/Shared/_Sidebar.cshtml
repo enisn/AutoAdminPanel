@@ -22,18 +22,23 @@
             <li class="@Url.IsLinkActive("AnotherLink", "Home")">
                 <a href="@Url.Action("AnotherLink", "Home")"><i class="fa fa-link"></i> <span>Another Link</span></a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-link"></i> <span>Multilevel</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
-                </ul>
-            </li>
+
+            @foreach (var item in AutoAdmin.Helpers.QueryHelper.GetTableNames())
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i> <span>@item</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index","Admin",new { table=item })">Index</a></li>
+                        <li><a href="@Url.Action("Create","Admin",new { table=item })">Create</a></li>
+                    </ul>
+                </li>
+            }
+
         </ul>
         @* END Menu *@
     </section>

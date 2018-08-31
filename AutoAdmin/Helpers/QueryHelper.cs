@@ -14,60 +14,90 @@ namespace AutoAdmin.Helpers
     {
         public static object Get(string table, object id)
         {
+            //using (var ctx = Configuration.NewContext())
+            //{
+            //    return ctx.Table(table).Find(id);
+            //}
             return Configuration.Context.Table(table).Find(id);
         }
         public static object GetInstance(string table)
         {
-            Type _type = Configuration.Context.GetType().GetProperty(table).PropertyType.GetGenericArguments()[0];
+            Type _type = Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0];
             return Activator.CreateInstance(_type);
         }
         public static IEnumerable<string> GetRelationsNames(string table)
         {
-            foreach (var property in Configuration.Context.GetType().GetProperty(table).PropertyType.GetGenericArguments()[0].GetProperties())
+            foreach (var property in Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0].GetProperties())
             {
-                if (Configuration.Context.GetType().GetProperties().Any(a=> a.Name == property.Name) && property.PropertyType != typeof(IEnumerable))
-                {                    
+                //if (Configuration.ctxType.GetProperties().Any(a => a.Name == property.Name) && property.PropertyType != typeof(ICollection))
+                if (Configuration.ctxType.GetProperties().Any(a => a.Name == property.Name) && !property.PropertyType.IsGenericType)
+                {
                     yield return property.Name;
                 }
             }
         }
         public static IEnumerable GetMultiple(string table)
         {
-            return Configuration.Context.Table(table) as IEnumerable;
+            using (var ctx = Configuration.NewContext())
+            {
+                try
+                {
+                    return ctx.Table(table).ToListAsync().Result;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                    return new[] { GetInstance(table) };
+                }
+            }
         }
         public static void Add(string table, object entity)
         {
-            Configuration.Context.Table(table).Add(entity);
-            Configuration.Context.SaveChanges();
+            using (var ctx = (DbContext)Activator.CreateInstance(Configuration.ctxType))
+            {
+                ctx.Set(Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0]).Add(entity);
+                ctx.SaveChanges();
+            }
         }
 
         public static void Delete(string table, object id)
         {
-            Configuration.Context.Table(table).Remove(Get(table, id));
-            Configuration.Context.SaveChanges();
+            using (var ctx = Configuration.NewContext())
+            {
+                ctx.Table(table).Remove( ctx.Table(table).Find(id) );
+                ctx.SaveChanges();
+            }
+            //Configuration.Context.Table(table).Remove(Get(table, id));
+            //Configuration.Context.SaveChanges();
         }
         public static void Update(string table, object entity, object id = null)
         {
-            object editedEntity;
-            if (id != null)
+            using (var ctx = Configuration.NewContext())
             {
-                editedEntity = Get(table, id);
-            }
-            else
-            {
-                editedEntity = Configuration.Context.Table(table).Find(entity);
-            }
 
-            editedEntity.CopyFrom(entity);
-            Configuration.Context.SaveChanges();
+                object editedEntity;
+                if (id != null)
+                {
+                    editedEntity = ctx.Table(table).Find(id);
+                }
+                else
+                {
+                    editedEntity = ctx.Table(table).Find(entity);
+                }
+
+                editedEntity.CopyFrom(entity);
+                ctx.SaveChanges();
+            }
         }
 
         public static IEnumerable<string> GetTableNames()
         {
-            foreach (var property in Configuration.Context.GetType().GetProperties())
-            {
-                yield return property.Name;
-            }
+         
+                foreach (var property in Configuration.ctxType.GetProperties())
+                {
+                    yield return property.Name;
+                } 
+            
         }
     }
 }
