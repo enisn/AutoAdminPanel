@@ -14,15 +14,20 @@ namespace AutoAdmin.Extensions
            return value.GetCustomAttributes(attribute, false).Count() > 0;
         }
 
-        public static object GetPrimaryKey(this object value)
+        public static string GetPrimaryKeyName(this object value)
         {
             foreach (var property in value.GetType().GetProperties())
             {
                 if (property.HasAttribute(typeof(KeyAttribute)))
-                    return property.GetValue(value);
+                    return property.Name;
             }
 
-            return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID")).GetValue(value);
+            return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID")).Name;
+        }
+
+        public static object GetPrimaryKey(this object value)
+        {
+            return value.GetType().GetProperty(value.GetPrimaryKeyName())?.GetValue(value);
         }
     }
 }

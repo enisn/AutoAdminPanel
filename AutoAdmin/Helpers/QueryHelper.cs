@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+
 using System.Threading.Tasks;
 using System.Web;
 
@@ -17,14 +18,15 @@ namespace AutoAdmin.Helpers
         }
         public static object GetInstance(string table)
         {
-            return Activator.CreateInstance(Configuration.Context.Table(table).GetType());
+            Type _type = Configuration.Context.GetType().GetProperty(table).PropertyType.GetGenericArguments()[0];
+            return Activator.CreateInstance(_type);
         }
         public static IEnumerable<string> GetRelationsNames(string table)
         {
-            foreach (var property in Configuration.Context.Table(table).GetType().GetProperties())
+            foreach (var property in Configuration.Context.GetType().GetProperty(table).PropertyType.GetGenericArguments()[0].GetProperties())
             {
-                if (property.PropertyType != typeof(string) && property.PropertyType.IsClass)
-                {
+                if (Configuration.Context.GetType().GetProperties().Any(a=> a.Name == property.Name) && property.PropertyType != typeof(IEnumerable))
+                {                    
                     yield return property.Name;
                 }
             }

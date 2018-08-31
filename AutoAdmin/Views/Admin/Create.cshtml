@@ -1,0 +1,55 @@
+﻿@model object
+@using System.Collections
+@using AutoAdmin.Extensions
+@using System.Linq.Expressions;
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Products</h4>
+        <hr />
+
+        @foreach (var property in Model.GetType().GetProperties())
+        {
+            <div class="form-group">
+                @Html.Label(property.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                @*@Html.LabelFor(model => model.GetType().GetProperty(property.Name), htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <div class="col-md-10">
+                    @if (ViewData.ContainsKey(property.Name))
+                    {
+                        @Html.DropDownListFor(model => model.GetType().GetProperty(property.Name).PropertyType, ViewData[property.Name].ToSelectList(), new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.DropDownListFor(model => model.GetType().GetProperty(property.Name).GetValue(Model), ViewData[property.Name].ToSelectList(), new { htmlAttributes = new { @class = "form-control" } })*@
+                    }
+                    //else if (property.PropertyType.IsGenericType || property.PropertyType.IsClass)
+                    //{
+                    //    continue;
+                    //}
+                    else
+                    {
+                        @Html.Editor(property.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @*@Html.EditorFor(model => model.GetType().GetProperty(property.Name).PropertyType, new { htmlAttributes = new { @class = "form-control" } })*@
+                    }
+                    @Html.ValidationMessageFor(model => model.GetType().GetProperty(property.Name).PropertyType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
