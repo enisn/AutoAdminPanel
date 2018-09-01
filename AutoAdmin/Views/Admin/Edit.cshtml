@@ -1,13 +1,11 @@
 ﻿@model object
-@using System.Collections
 @using AutoAdmin.Extensions
-@using System.Linq.Expressions;
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 @using (Html.BeginForm())
 {
@@ -27,8 +25,7 @@
                 <div class="col-md-10">
                     @if (ViewData.ContainsKey(property.Name))
                     {
-                        @Html.DropDownList(property.Name.GetTablePrimayKeyName(), ViewData[property.Name].ToSelectList(), new { htmlAttributes = new { @class = "form-control" } })
-                        @*@Html.DropDownListFor(model => model.GetType().GetProperty(property.Name).PropertyType, ViewData[property.Name].ToSelectList(), new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.DropDownListFor(model => model.GetType().GetProperty(property.Name).PropertyType, ViewData[property.Name].ToSelectList(), new { htmlAttributes = new { @class = "form-control" } })
                         @*@Html.DropDownListFor(model => model.GetType().GetProperty(property.Name).GetValue(Model), ViewData[property.Name].ToSelectList(), new { htmlAttributes = new { @class = "form-control" } })*@
                     }
                     //else if (property.PropertyType.IsGenericType || property.PropertyType.IsClass)
@@ -47,7 +44,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Edit" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -56,3 +53,4 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+

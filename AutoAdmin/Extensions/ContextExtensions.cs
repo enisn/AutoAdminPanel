@@ -15,7 +15,10 @@ namespace AutoAdmin.Extensions
             //return ctx.GetType().GetProperty(tableName)?.GetValue(ctx); 
             return ctx.Set(ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0]);
         }
-
+        public static Type TableType(this DbContext ctx, string tableName)
+        {
+            return ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0];
+        }
         public static object CopyFrom(this object to, object from)
         {
             foreach (var property in from.GetType().GetProperties())

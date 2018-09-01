@@ -25,6 +25,17 @@ namespace AutoAdmin.Extensions
             return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID")).Name;
         }
 
+        public static string GetTablePrimayKeyName(this string table)
+        {
+            var properties = Configuration.Context.TableType(table).GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.HasAttribute(typeof(KeyAttribute)))
+                    return property.Name;
+            }
+
+            return properties.FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID"))?.Name;
+        }
         public static object GetPrimaryKey(this object value)
         {
             return value.GetType().GetProperty(value.GetPrimaryKeyName())?.GetValue(value);
