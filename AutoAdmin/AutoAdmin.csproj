@@ -133,6 +133,7 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -140,7 +141,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Views\Admin\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -21,7 +21,7 @@ namespace AutoAdmin.Controllers
         }
 
         // GET: Admin/Details/5
-        public ActionResult Details(string table, int id)
+        public ActionResult Details(string table, object id)
         {
             var model = QueryHelper.Get(table, id);
             return View(model);
@@ -61,7 +61,7 @@ namespace AutoAdmin.Controllers
         }
 
         // GET: Admin/Edit/5
-        public ActionResult Edit(string table, int id)
+        public ActionResult Edit(string table, object id)
         {
             var model = QueryHelper.Get(table, id);
 
@@ -75,7 +75,7 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(string table, int id, FormCollection collection)
+        public ActionResult Edit(string table, object id, FormCollection collection)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace AutoAdmin.Controllers
         }
 
         // GET: Admin/Delete/5
-        public ActionResult Delete(string table, int id)
+        public ActionResult Delete(string table, object id)
         {
             var model = QueryHelper.Get(table, id);
             return View(model);
@@ -104,7 +104,7 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult Delete(string table, int id, FormCollection collection)
+        public ActionResult Delete(string table, object id, FormCollection collection)
         {
             try
             {
