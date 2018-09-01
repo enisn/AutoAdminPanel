@@ -73,14 +73,14 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(string table, dynamic id, object collection)
+        public ActionResult Edit(string table, dynamic id, FormCollection collection)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                     return View(collection);
 
-                var edited = QueryHelper.Get(table, id);
+                object edited = QueryHelper.Get(table, id);
                 // TODO: Add update logic here
 
                 edited.CopyFrom(collection);

@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,7 +17,7 @@ namespace AutoAdmin.Extensions
             //return ctx.GetType().GetProperty(tableName)?.GetValue(ctx); 
             return ctx.Set(ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0]);
         }
-        public static Type TableTypeOf(this DbContext ctx, string tableName)
+        public static Type TableTypeOf(this DbContext ctx, string tableName, [CallerFilePath]string path = "", [CallerLineNumber] int line = -1)
         {
             return ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0];
         }
@@ -40,8 +41,11 @@ namespace AutoAdmin.Extensions
                 {
                     convertedType = property.PropertyType.GetGenericArguments()[0];
                 }
-                property.SetValue(to,
-                    Convert.ChangeType( from[property.Name], convertedType));
+                if (convertedType == typeof(Boolean)) //for the html CheckBox "true,false" bug
+                    property.SetValue(to, from[property.Name].Contains("true"));
+                else
+                    property.SetValue(to,
+                        Convert.ChangeType(from[property.Name], convertedType));
             }
             return to;
         }

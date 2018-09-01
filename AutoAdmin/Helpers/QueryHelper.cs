@@ -80,8 +80,9 @@ namespace AutoAdmin.Helpers
         }
         public static void Update(string table, object entity, object id = null)
         {
-            using (var ctx = Configuration.NewContext())
-            {
+            //using (var ctx = Configuration.NewContext())
+            //{
+            var ctx = Configuration.Context;
 
                 object editedEntity;
                 if (id != null)
@@ -95,7 +96,7 @@ namespace AutoAdmin.Helpers
 
                 editedEntity.CopyFrom(entity);
                 ctx.SaveChanges();
-            }
+            //}
         }
 
         public static IEnumerable<string> GetTableNames()
