@@ -15,7 +15,14 @@ namespace AutoAdmin.Extensions
             enumerator.MoveNext();
             var first = enumerator.Current;
             if (first != null)
-                return new SelectList(collection, selected);
+            {
+                selected = 
+                    selected != null ? Convert.ChangeType(selected,
+                    first.GetType().GetPrimaryKeyType().IsGenericType ? first.GetType().GetPrimaryKeyType().GetGenericArguments()[0] : first.GetType().GetPrimaryKeyType()) 
+                    : selected;
+                var sList = new SelectList(collection, first.GetPrimaryKeyName(), null,selected );
+                return sList;
+            }
             else
                 return new SelectList(new[] { "Veri Bulunamadı!" });
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -21,6 +22,7 @@ namespace AutoAdmin
         protected void Application_Error(object sender, EventArgs e)
         {
             var exception = Server.GetLastError();
+            Debug.WriteLine(exception.ToString());
             var httpContext = ((HttpApplication)sender).Context;
             httpContext.Response.Clear();
             httpContext.ClearError();

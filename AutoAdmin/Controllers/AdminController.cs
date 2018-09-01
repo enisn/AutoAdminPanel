@@ -66,9 +66,7 @@ namespace AutoAdmin.Controllers
             var model = QueryHelper.Get(table, id);
 
             foreach (var name in QueryHelper.GetRelationsNames(table))
-            {
                 ViewData.Add(name, QueryHelper.GetMultiple(name));
-            }
 
             return View(model);
         }
@@ -87,11 +85,17 @@ namespace AutoAdmin.Controllers
 
                 QueryHelper.Update(table, edited, id);
 
+
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+
+                foreach (var name in QueryHelper.GetRelationsNames(table))
+                    ViewData.Add(name, QueryHelper.GetMultiple(name));
+
+                
+                return View(collection);
             }
         }
 

@@ -18,7 +18,11 @@ namespace AutoAdmin.Helpers
             //{
             //    return ctx.Table(table).Find(id);
             //}
-            return Configuration.Context.Table(table).Find(id);
+            var _pKeyType = Configuration.Context.TableType(table).GetPrimaryKeyType();
+            if (_pKeyType.IsGenericType)
+                _pKeyType = _pKeyType.GetGenericArguments()[0];
+
+            return Configuration.Context.Table(table).Find(Convert.ChangeType(id, _pKeyType));
         }
         public static object GetInstance(string table)
         {
@@ -64,7 +68,7 @@ namespace AutoAdmin.Helpers
         {
             using (var ctx = Configuration.NewContext())
             {
-                ctx.Table(table).Remove( ctx.Table(table).Find(id) );
+                ctx.Table(table).Remove(ctx.Table(table).Find(id));
                 ctx.SaveChanges();
             }
             //Configuration.Context.Table(table).Remove(Get(table, id));
@@ -78,7 +82,7 @@ namespace AutoAdmin.Helpers
                 object editedEntity;
                 if (id != null)
                 {
-                    editedEntity = ctx.Table(table).Find(id);
+                    editedEntity = ctx.Table(table).Find(Convert.ChangeType(id, ctx.TableType(table).GetPrimaryKeyType()));
                 }
                 else
                 {
@@ -92,12 +96,12 @@ namespace AutoAdmin.Helpers
 
         public static IEnumerable<string> GetTableNames()
         {
-         
-                foreach (var property in Configuration.ctxType.GetProperties())
-                {
-                    yield return property.Name;
-                } 
-            
+
+            foreach (var property in Configuration.ctxType.GetProperties())
+            {
+                yield return property.Name;
+            }
+
         }
     }
 }
