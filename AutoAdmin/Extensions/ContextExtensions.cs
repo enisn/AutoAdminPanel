@@ -16,7 +16,7 @@ namespace AutoAdmin.Extensions
             //return ctx.GetType().GetProperty(tableName)?.GetValue(ctx); 
             return ctx.Set(ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0]);
         }
-        public static Type TableType(this DbContext ctx, string tableName)
+        public static Type TableTypeOf(this DbContext ctx, string tableName)
         {
             return ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0];
         }
@@ -40,14 +40,35 @@ namespace AutoAdmin.Extensions
                 {
                     convertedType = property.PropertyType.GetGenericArguments()[0];
                 }
-                Debug.WriteLine("________________________________________________________________________________________");
-                Debug.WriteLine($"{property.Name} will be set as {from[property.Name]} and converted to {convertedType}");
-                Debug.WriteLine("________________________________________________________________________________________");
                 property.SetValue(to,
                     Convert.ChangeType( from[property.Name], convertedType));
-                                        //property.PropertyType.IsGenericType ? property.PropertyType.GetGenericArguments()[0] : property.PropertyType));
             }
             return to;
+        }
+        public static bool TryCopyFrom(this object to, NameValueCollection from)
+        {
+            bool result = true;
+            foreach (var property in to.GetType().GetProperties())
+            {
+                try
+                {
+                    if (from[property.Name] == null) continue;
+
+                    Type convertedType = property.PropertyType;
+                    if (property.PropertyType.IsGenericType)
+                    {
+                        convertedType = property.PropertyType.GetGenericArguments()[0];
+                    }
+                    property.SetValue(to,
+                        Convert.ChangeType(from[property.Name], convertedType));
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            return result;
         }
     }
 }

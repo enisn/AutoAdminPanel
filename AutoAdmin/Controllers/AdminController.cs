@@ -50,10 +50,10 @@ namespace AutoAdmin.Controllers
 
                 model.CopyFrom(collection);
 
-                QueryHelper.Add(table,model);
+                QueryHelper.Add(table, model);
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
                 return View();
@@ -73,13 +73,15 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(string table, object id, FormCollection collection)
+        public ActionResult Edit(string table, dynamic id, object collection)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                    return View(collection);
 
                 var edited = QueryHelper.Get(table, id);
+                // TODO: Add update logic here
 
                 edited.CopyFrom(collection);
 
@@ -91,11 +93,13 @@ namespace AutoAdmin.Controllers
             catch (Exception ex)
             {
 
+                var edited = QueryHelper.GetInstance(table);
+                //edited.TryCopyFrom(collection);
+                
                 foreach (var name in QueryHelper.GetRelationsNames(table))
                     ViewData.Add(name, QueryHelper.GetMultiple(name));
 
-                
-                return View(collection);
+                return View(edited);
             }
         }
 
@@ -117,7 +121,7 @@ namespace AutoAdmin.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
                 return View();

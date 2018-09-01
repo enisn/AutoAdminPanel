@@ -16,11 +16,12 @@ namespace AutoAdmin.Extensions
             var first = enumerator.Current;
             if (first != null)
             {
-                selected = 
-                    selected != null ? Convert.ChangeType(selected,
-                    first.GetType().GetPrimaryKeyType().IsGenericType ? first.GetType().GetPrimaryKeyType().GetGenericArguments()[0] : first.GetType().GetPrimaryKeyType()) 
-                    : selected;
-                var sList = new SelectList(collection, first.GetPrimaryKeyName(), null,selected );
+                var pKeyType = first.GetType().GetPrimaryKeyType().IsGenericType ? first.GetType().GetPrimaryKeyType().GetGenericArguments()[0] : first.GetType().GetPrimaryKeyType() ;
+                //selected =
+                //    selected != null ? Convert.ChangeType(selected,
+                //    first.GetType().GetPrimaryKeyType().IsGenericType ? first.GetType().GetPrimaryKeyType().GetGenericArguments()[0] : first.GetType().GetPrimaryKeyType())
+                //    : selected;
+                var sList = new SelectList(collection, first.GetPrimaryKeyName(), null, selected != null ?  Convert.ChangeType(selected, pKeyType) : selected);
                 return sList;
             }
             else
@@ -29,7 +30,7 @@ namespace AutoAdmin.Extensions
 
         public static SelectList ToSelectList(this object collection, object selected = null)
         {
-            if (collection is IEnumerable)
+            if (collection is IEnumerable && !(collection is String))
                 return ToSelectList(collection as IEnumerable, selected);
 
             throw new InvalidCastException("Data type is not a valid IEnumerable");
