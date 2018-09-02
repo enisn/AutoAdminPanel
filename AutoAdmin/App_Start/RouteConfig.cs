@@ -15,7 +15,7 @@ namespace AutoAdmin
                 name: "Default",
                 url: "{controller}/{table}/{action}/{id}",
                 
-                defaults: new { controller = "Home", action = "Index",table = UrlParameter.Optional, id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index",table = "Categories", id = UrlParameter.Optional }
             );
         }
     }

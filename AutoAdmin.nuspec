@@ -3,15 +3,15 @@
   <metadata>
     <!-- Required elements-->
     <id>AutoAdmin.Mvc</id>
-    <version>0.0.0.1</version>
-    <authors>enisn afgurbuz</authors>
+    <version>0.3.0-pre</version>
+    <authors>Enis Necipoglu &amp; Ahmet Gurbuz</authors>
 
-    <!-- License and project URLs provide links for the gallery -->
-    <!--<licenseUrl>https://github.com/enisn/Xamarin.Forms.InputKit</licenseUrl>
-    <projectUrl>https://github.com/enisn/Xamarin.Forms.InputKit</projectUrl>-->
+     <!--License and project URLs provide links for the gallery--> 
+    <licenseUrl>https://github.com/enisn/AutoAdminPanel</licenseUrl>
+    <projectUrl>https://github.com/enisn/AutoAdminPanel</projectUrl>
 
     <!-- The icon is used in Visual Studio's package manager UI -->
-    <!--<iconUrl>http://enisnecipoglu.com/Plugins/inputkit.png</iconUrl>-->
+    <!--<iconUrl></iconUrl>-->
 
     <!-- If true, this value prompts the user to accept the license when
             installing the package. -->
@@ -21,9 +21,43 @@
     <releaseNotes>Released</releaseNotes>
 
     <title>Provides automaticly an admin panel for your all tabled in your database</title>
-    <description>Test</description>
+    <description>Provides a completely admin panel into your project</description>
     <summary>
-      afsfa
+      Add nuget to your project.
+
+      Go to Your App_Start/RouteConfig.cs and change your routing to:
+      ------------------------
+      routes.MapRoute(
+      name: "Default",
+      url: "{controller}/{table}/{action}/{id}",
+
+      defaults: new { controller = "Home", action = "Index",table = "Categories", id = UrlParameter.Optional }
+      );
+      ------------------------
+      simply you need to add {table} parameter.
+
+      You must go to your        Global.asax        file and add this into      Application_Start()      method:
+
+      Configuration.Init(typeof(Models.NORTHWNDEntities));
+
+
+
+      The             typeof(Models.NORTHWNDEntities)          parameter must be your DbContext class.
+
+
+      Then you can create menu for your admin panel.
+
+
+      @foreach (var item in AutoAdmin.Mvc.Helpers.QueryHelper.GetTableNames())
+      {
+          &lt;li&gt;
+          &lt;a href="@Url.Action("Index","Admin",new { table=item })"&gt;Index&lt;/a&gt;
+          &lt;/li&gt;
+      }
+
+
+      Your menu and your admin panel is ready to launch !!!!
+
     </summary>
 
 
@@ -35,12 +69,14 @@
       <dependency id="RazorGenerator.Mvc" version="2.4.9" />
     </dependencies>
   </metadata>
-  
-    <!-- A readme.txt to display when the package is installed -->
-    <files>
-      <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.dll" target="lib\net40" />
-      <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.xml" target="lib\net40" />
-      <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.pdb" target="lib\net40" />
 
-    </files>
+  <!-- A readme.txt to display when the package is installed -->
+  <files>
+    <file src="readme.txt" target="" />
+    
+    <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.dll" target="lib\net40" />
+    <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.xml" target="lib\net40" />
+    <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.pdb" target="lib\net40" />
+
+  </files>
 </package>
