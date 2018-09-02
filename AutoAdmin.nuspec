@@ -7,11 +7,11 @@
     <authors>enisn afgurbuz</authors>
 
     <!-- License and project URLs provide links for the gallery -->
-    <licenseUrl>https://github.com/enisn/Xamarin.Forms.InputKit</licenseUrl>
-    <projectUrl>https://github.com/enisn/Xamarin.Forms.InputKit</projectUrl>
+    <!--<licenseUrl>https://github.com/enisn/Xamarin.Forms.InputKit</licenseUrl>
+    <projectUrl>https://github.com/enisn/Xamarin.Forms.InputKit</projectUrl>-->
 
     <!-- The icon is used in Visual Studio's package manager UI -->
-    <iconUrl>http://enisnecipoglu.com/Plugins/inputkit.png</iconUrl>
+    <!--<iconUrl>http://enisnecipoglu.com/Plugins/inputkit.png</iconUrl>-->
 
     <!-- If true, this value prompts the user to accept the license when
             installing the package. -->
@@ -20,7 +20,7 @@
     <!-- Any details about this particular release -->
     <releaseNotes>Released</releaseNotes>
 
-    <title>Common controls mostly required</title>
+    <title>Provides automaticly an admin panel for your all tabled in your database</title>
     <description>Test</description>
     <summary>
       afsfa
@@ -32,6 +32,7 @@
     <dependencies>
       <dependency id="EntityFramework" version="6.2.0" />
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.6" />
+      <dependency id="RazorGenerator.Mvc" version="2.4.9" />
     </dependencies>
   </metadata>
   

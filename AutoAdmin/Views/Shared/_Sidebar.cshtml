@@ -1,4 +1,5 @@
 ﻿@using WebHelpers.Mvc5
+
 <aside class="main-sidebar">
     <section class="sidebar">
         @* BEGIN Search *@
@@ -23,7 +24,7 @@
                 <a href="@Url.Action("AnotherLink", "Home")"><i class="fa fa-link"></i> <span>Another Link</span></a>
             </li>
 
-            @foreach (var item in AutoAdmin.Helpers.QueryHelper.GetTableNames())
+            @foreach (var item in AutoAdmin.Mvc.Helpers.QueryHelper.GetTableNames())
             {
                 <li class="treeview">
                     <a href="#">

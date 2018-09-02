@@ -16,13 +16,14 @@ namespace AutoAdmin.Mvc
         public static void Init(Type dbContext)
         {
             ctxType = dbContext;
+            Context = (DbContext)Activator.CreateInstance(ctxType);
         }
 
         internal static Type ctxType;
 
         #region DoNotTouch
         public static DbContext NewContext() => (DbContext)Activator.CreateInstance(ctxType);
-        public static DbContext Context { get; private set; } = (DbContext)Activator.CreateInstance(ctxType);
+        public static DbContext Context { get; private set; } 
         #endregion
     }
 }

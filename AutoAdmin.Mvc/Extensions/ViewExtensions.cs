@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace AutoAdmin.Extensions
+namespace AutoAdmin.Mvc.Extensions
 {
     public static class ViewExtensions
     {
@@ -36,6 +36,11 @@ namespace AutoAdmin.Extensions
             throw new InvalidCastException("Data type is not a valid IEnumerable");
         }
 
+        public static IEnumerable<PropertyInfo> GetProperties(this object model)
+        {
+            foreach (var property in model.GetType().GetProperties())
+                yield return property;            
+        }
 
         public static MvcHtmlString AutoEditorFor(this HtmlHelper<object> html, PropertyInfo property)
         {
@@ -51,7 +56,9 @@ namespace AutoAdmin.Extensions
         }
         public static MvcHtmlString AutoDisplayFor(this HtmlHelper<object> html, PropertyInfo property)
         {
-            return null;
+            if (property.PropertyType.IsGenericType)
+                return MvcHtmlString.Empty;
+            return html.Display(property.Name);
         }
         public static MvcHtmlString AutoLabelFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes)
         {

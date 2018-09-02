@@ -1,4 +1,4 @@
-﻿using AutoAdmin.Extensions;
+﻿using AutoAdmin.Mvc.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace AutoAdmin.Helpers
+namespace AutoAdmin.Mvc.Helpers
 {
     public class QueryHelper
     {
@@ -102,7 +102,6 @@ namespace AutoAdmin.Helpers
 
         public static IEnumerable<string> GetTableNames()
         {
-            KeyAttribute
             foreach (var property in Configuration.ctxType.GetProperties())
             {
                 yield return property.Name;

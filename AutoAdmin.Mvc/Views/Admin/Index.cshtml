@@ -1,0 +1,60 @@
+﻿@model IEnumerable<object>
+
+    @using AutoAdmin.Mvc.Extensions
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            @{ var properties = Model.FirstOrDefault()?.GetType().GetProperties(); }
+            @if (properties != null)
+            {
+
+                foreach (var property in properties)
+                {
+                    if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
+                    {
+                        continue;
+                    }
+                    <th>
+                        @property.Name
+                        @*@Html.DisplayNameFor(x => property.GetValue(Model.First()))*@
+                    </th>
+                }
+
+            }
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                @foreach (var property in properties)
+                {
+                    if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
+                    {
+                        continue;
+                    }
+                    <td>
+                        @property.GetValue(item)
+                        @*@Html.Display(property.Name)*@
+                    </td>
+                }
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKey() }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKey() }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKey() })
+                </td>
+            </tr>
+        }
+
+    </table>

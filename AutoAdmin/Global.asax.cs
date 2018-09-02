@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AutoAdmin.App_Start;
 using AutoAdmin.Controllers;
+using AutoAdmin.Mvc;
 
 namespace AutoAdmin
 {
@@ -17,6 +18,7 @@ namespace AutoAdmin
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Configuration.Init(typeof(Models.NORTHWNDEntities));
         }
 
         protected void Application_Error(object sender, EventArgs e)

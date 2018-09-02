@@ -8,19 +8,37 @@ using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
 
-namespace AutoAdmin.Extensions
+namespace AutoAdmin.Mvc.Extensions
 {
     public static class ContextExtensions
     {
+        /// <summary>
+        /// To get DbSet from tablename
+        /// </summary>
+        /// <param name="ctx"> Current Context</param>
+        /// <param name="tableName">Table name to get DbSet</param>
+        /// <returns></returns>
         public static DbSet Table(this DbContext ctx, string tableName)
         {
             //return ctx.GetType().GetProperty(tableName)?.GetValue(ctx); 
             return ctx.Set(ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0]);
         }
-        public static Type TableTypeOf(this DbContext ctx, string tableName, [CallerFilePath]string path = "", [CallerLineNumber] int line = -1)
+        /// <summary>
+        /// To find table T type from DbSet&lt;T&gt; 
+        /// </summary>
+        /// <param name="ctx">Current DbContext</param>
+        /// <param name="tableName">Table name to find type</param>
+        /// <returns></returns>
+        public static Type TableTypeOf(this DbContext ctx, string tableName)
         {
             return ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0];
         }
+        /// <summary>
+        /// Copies all propertis from different object to this object
+        /// </summary>
+        /// <param name="to">Properties will be copied to this object</param>
+        /// <param name="from">Properties will be copied from</param>
+        /// <returns></returns>
         public static object CopyFrom(this object to, object from)
         {
             foreach (var property in from.GetType().GetProperties())
@@ -29,7 +47,12 @@ namespace AutoAdmin.Extensions
             }
             return to;
         }
-
+        /// <summary>
+        /// Copies all propertis from NameValueCollection to this object
+        /// </summary>
+        /// <param name="to">Properties will be copied to this object</param>
+        /// <param name="from">Properties will be copied from</param>
+        /// <returns></returns>
         public static object CopyFrom(this object to, NameValueCollection from)
         {
             foreach (var property in to.GetType().GetProperties())
@@ -49,6 +72,12 @@ namespace AutoAdmin.Extensions
             }
             return to;
         }
+        /// <summary>
+        /// Copies all propertis from different object to this object. If an error occours. Returns false at the end of proccess
+        /// </summary>
+        /// <param name="to">Properties will be copied to this object</param>
+        /// <param name="from">Properties will be copied from</param>
+        /// <returns></returns>
         public static bool TryCopyFrom(this object to, NameValueCollection from)
         {
             bool result = true;

@@ -1,34 +1,30 @@
-﻿using AutoAdmin.Extensions;
-using AutoAdmin.Helpers;
+﻿using AutoAdmin.Mvc.Extensions;
+using AutoAdmin.Mvc.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
-namespace AutoAdmin.Controllers
+namespace AutoAdmin.Mvc.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
-        public ActionResult Index(string table)
+        public virtual ActionResult Index(string table)
         {
-            //var list = new Models.NORTHWNDEntities().Categories.ToList();
-
             var list = QueryHelper.GetMultiple(table);
             return View(list);
         }
-
         // GET: Admin/Details/5
-        public ActionResult Details(string table, object id)
+        public virtual ActionResult Details(string table, object id)
         {
             var model = QueryHelper.Get(table, id);
             return View(model);
         }
 
         // GET: Admin/Create
-        public ActionResult Create(string table)
+        public virtual ActionResult Create(string table)
         {
             var model = QueryHelper.GetInstance(table);
 
@@ -42,7 +38,7 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Create
         [HttpPost]
-        public ActionResult Create(string table, FormCollection collection)
+        public virtual ActionResult Create(string table, FormCollection collection)
         {
             try
             {
@@ -61,7 +57,7 @@ namespace AutoAdmin.Controllers
         }
 
         // GET: Admin/Edit/5
-        public ActionResult Edit(string table, object id)
+        public virtual ActionResult Edit(string table, object id)
         {
             var model = QueryHelper.Get(table, id);
 
@@ -73,7 +69,7 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(string table, dynamic id, FormCollection collection)
+        public virtual ActionResult Edit(string table, dynamic id, FormCollection collection)
         {
             try
             {
@@ -95,7 +91,7 @@ namespace AutoAdmin.Controllers
 
                 var edited = QueryHelper.GetInstance(table);
                 //edited.TryCopyFrom(collection);
-                
+
                 foreach (var name in QueryHelper.GetRelationsNames(table))
                     ViewData.Add(name, QueryHelper.GetMultiple(name));
 
@@ -104,7 +100,7 @@ namespace AutoAdmin.Controllers
         }
 
         // GET: Admin/Delete/5
-        public ActionResult Delete(string table, object id)
+        public virtual ActionResult Delete(string table, object id)
         {
             var model = QueryHelper.Get(table, id);
             return View(model);
@@ -112,7 +108,7 @@ namespace AutoAdmin.Controllers
 
         // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult Delete(string table, object id, FormCollection collection)
+        public virtual ActionResult Delete(string table, object id, FormCollection collection)
         {
             try
             {

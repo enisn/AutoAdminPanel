@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace AutoAdmin.Extensions
+namespace AutoAdmin.Mvc.Extensions
 {
     public static class AttributeExtensions
     {
