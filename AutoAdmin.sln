@@ -5,6 +5,17 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoAdmin", "AutoAdmin\AutoAdmin.csproj", "{3CDCE043-62B6-4058-9799-B790C7201FED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9A19B93B-62E7-4634-91D9-EF02187437B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoAdmin.Mvc", "AutoAdmin.Mvc\AutoAdmin.Mvc.csproj", "{EA5E6F9D-2A92-452D-B986-ADD04B1B87B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A8A599C-07CE-48CE-977F-D7818793C5CD}"
+	ProjectSection(SolutionItems) = preProject
+		AutoAdmin.nuspec = AutoAdmin.nuspec
+		Pack.bat = Pack.bat
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +26,16 @@ Global
 		{3CDCE043-62B6-4058-9799-B790C7201FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CDCE043-62B6-4058-9799-B790C7201FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CDCE043-62B6-4058-9799-B790C7201FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA5E6F9D-2A92-452D-B986-ADD04B1B87B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA5E6F9D-2A92-452D-B986-ADD04B1B87B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA5E6F9D-2A92-452D-B986-ADD04B1B87B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA5E6F9D-2A92-452D-B986-ADD04B1B87B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EA5E6F9D-2A92-452D-B986-ADD04B1B87B2} = {9A19B93B-62E7-4634-91D9-EF02187437B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64BF85C6-CCAC-4511-9AC8-1CBF45722B2E}

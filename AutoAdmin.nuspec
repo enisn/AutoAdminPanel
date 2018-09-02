@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Required elements-->
+    <id>AutoAdmin.Mvc</id>
+    <version>0.0.0.1</version>
+    <authors>enisn afgurbuz</authors>
+
+    <!-- License and project URLs provide links for the gallery -->
+    <licenseUrl>https://github.com/enisn/Xamarin.Forms.InputKit</licenseUrl>
+    <projectUrl>https://github.com/enisn/Xamarin.Forms.InputKit</projectUrl>
+
+    <!-- The icon is used in Visual Studio's package manager UI -->
+    <iconUrl>http://enisnecipoglu.com/Plugins/inputkit.png</iconUrl>
+
+    <!-- If true, this value prompts the user to accept the license when
+            installing the package. -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+    <!-- Any details about this particular release -->
+    <releaseNotes>Released</releaseNotes>
+
+    <title>Common controls mostly required</title>
+    <description>Test</description>
+    <summary>
+      afsfa
+    </summary>
+
+
+
+
+    <dependencies>
+      <dependency id="EntityFramework" version="6.2.0" />
+      <dependency id="Microsoft.AspNet.Mvc" version="5.2.6" />
+    </dependencies>
+  </metadata>
+  
+    <!-- A readme.txt to display when the package is installed -->
+    <files>
+      <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.dll" target="lib\net40" />
+      <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.xml" target="lib\net40" />
+      <file src="AutoAdmin.Mvc\bin\Release\AutoAdmin.Mvc.pdb" target="lib\net40" />
+
+    </files>
+</package>

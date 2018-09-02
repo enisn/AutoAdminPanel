@@ -20,7 +20,7 @@
                 @Html.AutoLabelFor(property, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.AutoEditorFor(property)
-                    @Html.ValidationMessageFor(model => model.GetType().GetProperty(property.Name).PropertyType, "", new { @class = "text-danger" })
+                    @Html.AutoValidationMessageFor(property,new { @class = "text-danger" })
                 </div>
             </div>
         }

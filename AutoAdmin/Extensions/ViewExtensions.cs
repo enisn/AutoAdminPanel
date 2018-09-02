@@ -49,7 +49,10 @@ namespace AutoAdmin.Extensions
                 return html.DropDownList(property.Name.GetTablePrimayKeyName(), html.ViewData[property.Name].ToSelectList(html.ViewData.Model.GetForeignKeyFor(property.Name)), new { @class = "selectpicker"/*, multiple = "multiple"*/ });
             return html.Editor(property.Name, new { htmlAttributes = new { @class = "form-control" } });
         }
-
+        public static MvcHtmlString AutoDisplayFor(this HtmlHelper<object> html, PropertyInfo property)
+        {
+            return null;
+        }
         public static MvcHtmlString AutoLabelFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes)
         {
             if (property.PropertyType.IsGenericType)

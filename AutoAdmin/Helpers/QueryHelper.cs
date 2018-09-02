@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 
@@ -101,7 +102,7 @@ namespace AutoAdmin.Helpers
 
         public static IEnumerable<string> GetTableNames()
         {
-
+            KeyAttribute
             foreach (var property in Configuration.ctxType.GetProperties())
             {
                 yield return property.Name;
