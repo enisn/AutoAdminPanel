@@ -13,7 +13,7 @@ namespace AutoAdmin.Mvc.Controllers
     {
         public virtual ActionResult Index(string table)
         {
-            var list = QueryHelper.GetMultiple(table);
+            var list = QueryHelper.GetMultiple(table,Request.QueryString);
 
             return View(list);
         }

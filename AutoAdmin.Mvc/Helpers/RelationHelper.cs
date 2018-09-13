@@ -83,20 +83,21 @@ namespace AutoAdmin.Mvc.Helpers
             //var from = isCollection ? property.PropertyType.GetGenericArguments()[0] : property.PropertyType;
             foreach (var targetProperty in properties)
             {
-                if (targetProperty.PropertyType == property.DeclaringType)                
+                if (targetProperty.PropertyType == property.DeclaringType.BaseType)                
                     return isCollection ? Relation.OneToMany : Relation.OneToOne;
-                try
-                {
+                //try
+                //{
 
-                    var t1 = targetProperty.PropertyType.GetGenericArguments();
-                    var t2 = targetProperty.PropertyType.GetGenericParameterConstraints();
-                    var t3 = targetProperty.PropertyType.GetGenericTypeDefinition();
-                }
-                catch (Exception ex)
-                {
-                }
+                //    var t1 = targetProperty.PropertyType.GetGenericArguments()[0];
+                //    var d1 = property.DeclaringType;
+                //    var t2 = targetProperty.PropertyType.GetGenericParameterConstraints();
+                //    var t3 = targetProperty.PropertyType.GetGenericTypeDefinition();
+                //}
+                //catch (Exception ex)
+                //{
+                //}
 
-                if (targetProperty.PropertyType.IsConstructedGenericType && targetProperty.PropertyType.GetGenericArguments()[0] == property.DeclaringType)                
+                if (targetProperty.PropertyType.IsConstructedGenericType && targetProperty.PropertyType.GetGenericArguments()[0] == property.DeclaringType.BaseType)                
                     return isCollection ? Relation.ManyToMany : Relation.ManyToOne;
                 
             }

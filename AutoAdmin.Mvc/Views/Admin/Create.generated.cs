@@ -124,15 +124,13 @@ WriteLiteral("\r\n            <div");
 
 WriteLiteral(" class=\"col-md-10\"");
 
-WriteLiteral(">\r\n                ");
-
-WriteLiteral("\r\n");
+WriteLiteral(">\r\n");
 
 WriteLiteral("                ");
 
             
-            #line 23 "..\..\Views\Admin\Create.cshtml"
-           Write(Html.AutoEditorFor(property,true));
+            #line 22 "..\..\Views\Admin\Create.cshtml"
+           Write(Html.AutoEditorFor(property, new { @class = "form-control" }));
 
             
             #line default
@@ -142,7 +140,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                ");
 
             
-            #line 24 "..\..\Views\Admin\Create.cshtml"
+            #line 23 "..\..\Views\Admin\Create.cshtml"
            Write(Html.AutoValidationMessageFor(property, new { @class = "text-danger" }));
 
             
@@ -151,7 +149,7 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n        </div>\r\n");
 
             
-            #line 27 "..\..\Views\Admin\Create.cshtml"
+            #line 26 "..\..\Views\Admin\Create.cshtml"
     }
 
             
@@ -176,7 +174,7 @@ WriteLiteral(" class=\"btn btn-default\"");
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n</div>\r\n");
 
             
-            #line 35 "..\..\Views\Admin\Create.cshtml"
+            #line 34 "..\..\Views\Admin\Create.cshtml"
 }
 
             
@@ -187,7 +185,7 @@ WriteLiteral("\r\n<div>\r\n");
 WriteLiteral("    ");
 
             
-            #line 38 "..\..\Views\Admin\Create.cshtml"
+            #line 37 "..\..\Views\Admin\Create.cshtml"
 Write(Html.ActionLink("Back to List", "Index"));
 
             

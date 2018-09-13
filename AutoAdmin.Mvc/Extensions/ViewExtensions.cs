@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.Routing;
 
 namespace AutoAdmin.Mvc.Extensions
 {
@@ -51,42 +52,7 @@ namespace AutoAdmin.Mvc.Extensions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="html"></param>
-        /// <param name="property"></param>
-        /// <returns></returns>
         public static MvcHtmlString AutoEditorFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes = null)
-        {
-            if (property.HasAttribute(typeof(KeyAttribute)))
-                return html.Hidden(property.Name);
-            if ((property.PropertyType.IsGenericType || property.PropertyType.GetTableName() != null) && !html.ViewData.ContainsKey(property.Name))
-                return MvcHtmlString.Empty;
-
-            if (html.ViewData.Model.IsDropdownValue(property))
-            {
-                if (html.ViewData.Model.IsManyToManyWith(property.Name))
-                {
-                    var asd = (property.GetValue(html.ViewData.Model) as IEnumerable).SelectPrimaryKeys();
-                    return html.DropDownList(html.ViewData.Model.GetPropertyFromType(property.PropertyType)?.Name,
-                        html.ViewData[property.Name].ToSelectList(),
-                        new { @class = "selectpicker", multiple = "multiple" });
-                }
-                else
-                    return html.DropDownList(
-
-                        property.PropertyType.GetTypePrimaryKeyName(),
-
-                        html.ViewData[property.Name]
-                                    .ToSelectList(html.ViewData.Model.GetForeignKeyFor(property.PropertyType)),
-                                      new { @class = "selectpicker" }
-                        );
-            }
-
-            //if (!property.PropertyType.IsGenericType || (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)))
-            return html.Editor(property.Name, new { htmlAttributes = new { @class = "form-control" } });
-
-        }
-
-        public static MvcHtmlString AutoEditorFor(this HtmlHelper<object> html, PropertyInfo property, bool newVal)
         {
             if (property.HasAttribute(typeof(KeyAttribute)) || property.HasAttribute(typeof(IgnoreAttribute)))
                 return html.Hidden(property.Name);
@@ -122,10 +88,29 @@ namespace AutoAdmin.Mvc.Extensions
             }
             return html.ActionLink("Could not found editor for", "Index", "Admin", new { table = property.DeclaringType.Name });
         }
-        public static MvcHtmlString AutoDisplayFor(this HtmlHelper<object> html, PropertyInfo property)
+        public static MvcHtmlString AutoDisplayFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes = null)
         {
-            if ((property.PropertyType.IsGenericType || property.PropertyType.GetTableName() != null) && !html.ViewData.ContainsKey(property.Name))
+            if (property.HasAttribute(typeof(KeyAttribute)) || property.HasAttribute(typeof(IgnoreAttribute)))
                 return MvcHtmlString.Empty;
+
+            switch (property.GetRelation())
+            {
+                case Relation.None:
+                    return html.Display(property.Name);
+                case Relation.OneToOne:
+                    return html.ActionLink(property.GetValue(html.ViewData.Model)?.ToString(), "Details", new { table = property.PropertyType.Name, id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
+
+                case Relation.OneToMany:
+                    return html.ActionLink(property.GetValue(html.ViewData.Model)?.ToString(), "Index", new RouteValueDictionary(new Dictionary<string, object>()
+                    {
+                        { "table",( property.PropertyType.IsConstructedGenericType ?  property.PropertyType.GetGenericArguments()[0] : property.PropertyType).GetTableName() },
+                        { property.DeclaringType.GetTypePrimaryKeyName(), html.ViewData.Model.GetPrimaryKeyValue() },
+                    }));
+
+                case Relation.ManyToOne:
+                case Relation.ManyToMany:
+                    return html.Display(property.Name);
+            }
 
             return html.Display(property.Name);
 

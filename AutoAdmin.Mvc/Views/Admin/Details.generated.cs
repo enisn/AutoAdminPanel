@@ -73,10 +73,6 @@ WriteLiteral(">\r\n\r\n");
             #line 16 "..\..\Views\Admin\Details.cshtml"
          foreach (var property in Model.GetType().GetProperties())
         {
-            if (property.PropertyType.IsGenericType || property.PropertyType == typeof(IEnumerable))
-            {
-                continue;
-            }
 
             
             #line default
@@ -86,8 +82,8 @@ WriteLiteral("            <dt>\r\n");
 WriteLiteral("                ");
 
             
-            #line 23 "..\..\Views\Admin\Details.cshtml"
-           Write(property.Name);
+            #line 19 "..\..\Views\Admin\Details.cshtml"
+           Write(Html.AutoLabelFor(property));
 
             
             #line default
@@ -99,8 +95,8 @@ WriteLiteral("            <dd>\r\n");
 WriteLiteral("                ");
 
             
-            #line 26 "..\..\Views\Admin\Details.cshtml"
-           Write(property.GetValue(Model));
+            #line 22 "..\..\Views\Admin\Details.cshtml"
+           Write(Html.AutoDisplayFor(property));
 
             
             #line default
@@ -108,7 +104,7 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </dd>\r\n");
 
             
-            #line 28 "..\..\Views\Admin\Details.cshtml"
+            #line 24 "..\..\Views\Admin\Details.cshtml"
         }
 
             
@@ -119,7 +115,7 @@ WriteLiteral("    </dl>\r\n</div>\r\n<p>\r\n");
 WriteLiteral("    ");
 
             
-            #line 32 "..\..\Views\Admin\Details.cshtml"
+            #line 28 "..\..\Views\Admin\Details.cshtml"
 Write(Html.ActionLink("Edit", "Edit", new { id = Model.GetPrimaryKeyValue() }));
 
             
@@ -130,7 +126,7 @@ WriteLiteral(" |\r\n");
 WriteLiteral("    ");
 
             
-            #line 33 "..\..\Views\Admin\Details.cshtml"
+            #line 29 "..\..\Views\Admin\Details.cshtml"
 Write(Html.ActionLink("Back to List", "Index"));
 
             

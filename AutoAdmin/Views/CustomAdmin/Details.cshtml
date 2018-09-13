@@ -15,16 +15,12 @@
 
         @foreach (var property in Model.GetType().GetProperties())
         {
-            if (property.PropertyType.IsGenericType || property.PropertyType == typeof(IEnumerable))
-            {
-                continue;
-            }
-                <dt>
-                    @property.Name
-                </dt>
-                <dd>
-                    @property.GetValue(Model)
-                </dd>
+            <dt>
+               @Html.AutoLabelFor(property)
+            </dt>
+            <dd>
+                @Html.AutoDisplayFor(property)
+            </dd>
         }
     </dl>
 </div>

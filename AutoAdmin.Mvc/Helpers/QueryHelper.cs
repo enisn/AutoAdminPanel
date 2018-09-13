@@ -1,4 +1,5 @@
-﻿using AutoAdmin.Mvc.Extensions;
+﻿using AutoAdmin.Mvc.Attributes;
+using AutoAdmin.Mvc.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,42 +61,25 @@ namespace AutoAdmin.Mvc.Helpers
         }
 
 
-
         public static IEnumerable GetMultiple(string table, NameValueCollection filters)
         {
+            if (filters?.Count > 0 == false)
+                return GetMultiple(table);
+
             using (var ctx = Configuration.NewContext())
             {
-                try
+                string query = $"SELECT * FROM dbo.{table} WHERE ";
+                foreach (string key in filters)
                 {
-                    var property = ctx.GetType().GetProperty(table);
-                    var method = ctx.GetType().GetMethod("Set", new Type[0]).MakeGenericMethod(property.PropertyType);
-                    var _query = (IQueryable)method.Invoke(ctx, new object[0]);
-
-
-                    var type = property.PropertyType.GetGenericArguments()[0];
-                    //var whereMethod = typeof(System.Linq.Queryable).GetMethod("Where", new Type[0]).MakeGenericMethod(property.PropertyType);
-                    foreach (string item in filters)
-                    {
-
-                        var resultExp = Expression.Call(
-                            typeof(Queryable), "Where",
-                            new Type[] { property.PropertyType, type.GetProperty(item).PropertyType },
-                            _query.Expression,
-                            Expression.Quote(
-                                Expression.Lambda(Expression.MakeMemberAccess(Expression.Parameter(type, "p"), type.GetProperty(item)))
-                                ));
-                        _query = _query.Provider.CreateQuery(resultExp);
-                    }
-
-                    return _query.ToListAsync().Result;
+                    query += $"{key} = {filters[key]} AND ";
                 }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.ToString());
-                    return new[] { GetInstance(table) };
-                }
+                query = query.Remove(query.Length - 5, 4);
+
+                var result = ctx.Table(table).SqlQuery(query).ToListAsync().Result;
+                return result;
             }
         }
+
         public static IEnumerable GetMultiple(Type tableType)
         {
             using (var ctx = Configuration.NewContext())
@@ -152,6 +136,8 @@ namespace AutoAdmin.Mvc.Helpers
         {
             foreach (var property in Configuration.ctxType.GetProperties())
             {
+                if (property.HasAttribute(typeof(IgnoreAttribute)))
+                    continue;
                 yield return property.Name;
             }
 
