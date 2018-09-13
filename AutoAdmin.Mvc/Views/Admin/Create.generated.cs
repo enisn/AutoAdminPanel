@@ -51,7 +51,7 @@ namespace ASP
             
             #line default
             #line hidden
-WriteLiteral("\r\n<h2>Create</h2>\r\n\r\n");
+WriteLiteral("\r\n\r\n\r\n");
 
             
             #line 10 "..\..\Views\Admin\Create.cshtml"
@@ -76,85 +76,96 @@ Write(Html.AntiForgeryToken());
             
             #line default
             #line hidden
-WriteLiteral("    <div");
+WriteLiteral("<div");
 
 WriteLiteral(" class=\"form-horizontal\"");
 
-WriteLiteral(">\r\n        <h4>Products</h4>\r\n        <hr />\r\n");
+WriteLiteral(">\r\n    <h4>");
+
+            
+            #line 15 "..\..\Views\Admin\Create.cshtml"
+   Write(Url.RequestContext.RouteData.GetRequiredString("table"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</h4>\r\n    <hr />\r\n");
 
             
             #line 17 "..\..\Views\Admin\Create.cshtml"
-        
+    
             
             #line default
             #line hidden
             
             #line 17 "..\..\Views\Admin\Create.cshtml"
-         foreach (var property in Model.GetType().GetProperties())
-        {
+     foreach (var property in Model.GetType().GetProperties())
+    {
 
             
             #line default
             #line hidden
-WriteLiteral("            <div");
+WriteLiteral("        <div");
 
 WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("                ");
+WriteLiteral("            ");
 
             
             #line 20 "..\..\Views\Admin\Create.cshtml"
-           Write(Html.AutoLabelFor(property, htmlAttributes: new { @class = "control-label col-md-2" }));
+       Write(Html.AutoLabelFor(property, htmlAttributes: new { @class = "control-label col-md-2" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                <div");
+WriteLiteral("\r\n            <div");
 
 WriteLiteral(" class=\"col-md-10\"");
 
-WriteLiteral(">\r\n");
+WriteLiteral(">\r\n                ");
 
-WriteLiteral("                    ");
+WriteLiteral("\r\n");
+
+WriteLiteral("                ");
 
             
-            #line 22 "..\..\Views\Admin\Create.cshtml"
-               Write(Html.AutoEditorFor(property));
+            #line 23 "..\..\Views\Admin\Create.cshtml"
+           Write(Html.AutoEditorFor(property,true));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n");
 
-WriteLiteral("                    ");
+WriteLiteral("                ");
 
             
-            #line 23 "..\..\Views\Admin\Create.cshtml"
-               Write(Html.AutoValidationMessageFor(property, new { @class = "text-danger" }));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n                </div>\r\n            </div>\r\n");
-
-            
-            #line 26 "..\..\Views\Admin\Create.cshtml"
-        }
+            #line 24 "..\..\Views\Admin\Create.cshtml"
+           Write(Html.AutoValidationMessageFor(property, new { @class = "text-danger" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n        <div");
+WriteLiteral("\r\n            </div>\r\n        </div>\r\n");
+
+            
+            #line 27 "..\..\Views\Admin\Create.cshtml"
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    <div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" class=\"col-md-offset-2 col-md-10\"");
 
-WriteLiteral(">\r\n                <input");
+WriteLiteral(">\r\n            <input");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -162,10 +173,10 @@ WriteLiteral(" value=\"Create\"");
 
 WriteLiteral(" class=\"btn btn-default\"");
 
-WriteLiteral(" />\r\n            </div>\r\n        </div>\r\n    </div>\r\n");
+WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n</div>\r\n");
 
             
-            #line 34 "..\..\Views\Admin\Create.cshtml"
+            #line 35 "..\..\Views\Admin\Create.cshtml"
 }
 
             
@@ -176,7 +187,7 @@ WriteLiteral("\r\n<div>\r\n");
 WriteLiteral("    ");
 
             
-            #line 37 "..\..\Views\Admin\Create.cshtml"
+            #line 38 "..\..\Views\Admin\Create.cshtml"
 Write(Html.ActionLink("Back to List", "Index"));
 
             

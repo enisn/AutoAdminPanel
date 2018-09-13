@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Products</h4>
+        <h4>@Url.RequestContext.RouteData.GetRequiredString("table")</h4>
         <hr />
         @foreach (var property in Model.GetType().GetProperties())
         {

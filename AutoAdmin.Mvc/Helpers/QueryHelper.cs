@@ -2,10 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -30,14 +32,14 @@ namespace AutoAdmin.Mvc.Helpers
             Type _type = Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0];
             return Activator.CreateInstance(_type);
         }
-        public static IEnumerable<string> GetRelationsNames(string table)
+        public static IEnumerable<PropertyInfo> GetRelationProperties(string table)
         {
-            foreach (var property in Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0].GetProperties())
+            var tableType = Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0];
+            foreach (var property in tableType.GetProperties())
             {
-                //if (Configuration.ctxType.GetProperties().Any(a => a.Name == property.Name) && property.PropertyType != typeof(ICollection))
-                if (Configuration.ctxType.GetProperties().Any(a => a.Name == property.Name) && !property.PropertyType.IsGenericType)
+                if (tableType.IsDropdownValue(property))
                 {
-                    yield return property.Name;
+                    yield return property;
                 }
             }
         }
@@ -54,6 +56,52 @@ namespace AutoAdmin.Mvc.Helpers
                     System.Diagnostics.Debug.WriteLine(ex.ToString());
                     return new[] { GetInstance(table) };
                 }
+            }
+        }
+
+
+
+        public static IEnumerable GetMultiple(string table, NameValueCollection filters)
+        {
+            using (var ctx = Configuration.NewContext())
+            {
+                try
+                {
+                    var property = ctx.GetType().GetProperty(table);
+                    var method = ctx.GetType().GetMethod("Set", new Type[0]).MakeGenericMethod(property.PropertyType);
+                    var _query = (IQueryable)method.Invoke(ctx, new object[0]);
+
+
+                    var type = property.PropertyType.GetGenericArguments()[0];
+                    //var whereMethod = typeof(System.Linq.Queryable).GetMethod("Where", new Type[0]).MakeGenericMethod(property.PropertyType);
+                    foreach (string item in filters)
+                    {
+
+                        var resultExp = Expression.Call(
+                            typeof(Queryable), "Where",
+                            new Type[] { property.PropertyType, type.GetProperty(item).PropertyType },
+                            _query.Expression,
+                            Expression.Quote(
+                                Expression.Lambda(Expression.MakeMemberAccess(Expression.Parameter(type, "p"), type.GetProperty(item)))
+                                ));
+                        _query = _query.Provider.CreateQuery(resultExp);
+                    }
+
+                    return _query.ToListAsync().Result;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                    return new[] { GetInstance(table) };
+                }
+            }
+        }
+        public static IEnumerable GetMultiple(Type tableType)
+        {
+            using (var ctx = Configuration.NewContext())
+            {
+                if (tableType.IsGenericType) tableType = tableType.GetGenericArguments()[0];
+                return ctx.Set(tableType).ToListAsync().Result;
             }
         }
         public static void Add(string table, object entity)
@@ -85,18 +133,18 @@ namespace AutoAdmin.Mvc.Helpers
             //{
             var ctx = Configuration.Context;
 
-                object editedEntity;
-                if (id != null)
-                {
-                    editedEntity = ctx.Table(table).Find(Convert.ChangeType(id, ctx.TableTypeOf(table).GetPrimaryKeyType()));
-                }
-                else
-                {
-                    editedEntity = ctx.Table(table).Find(entity);
-                }
+            object editedEntity;
+            if (id != null)
+            {
+                editedEntity = ctx.Table(table).Find(Convert.ChangeType(id, ctx.TableTypeOf(table).GetPrimaryKeyType()));
+            }
+            else
+            {
+                editedEntity = ctx.Table(table).Find(entity);
+            }
 
-                editedEntity.CopyFrom(entity);
-                ctx.SaveChanges();
+            editedEntity.CopyFrom(entity);
+            ctx.SaveChanges();
             //}
         }
 

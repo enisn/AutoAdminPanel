@@ -195,7 +195,7 @@ WriteLiteral("                    ");
 
             
             #line 53 "..\..\Views\Admin\Index.cshtml"
-               Write(Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKey() }));
+               Write(Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }));
 
             
             #line default
@@ -206,7 +206,7 @@ WriteLiteral("                    ");
 
             
             #line 54 "..\..\Views\Admin\Index.cshtml"
-               Write(Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKey() }));
+               Write(Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }));
 
             
             #line default
@@ -217,7 +217,7 @@ WriteLiteral("                    ");
 
             
             #line 55 "..\..\Views\Admin\Index.cshtml"
-               Write(Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKey() }));
+               Write(Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() }));
 
             
             #line default

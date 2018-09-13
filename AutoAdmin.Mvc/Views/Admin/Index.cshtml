@@ -50,9 +50,9 @@
                 }
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKey() }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKey() }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKey() })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() })
                 </td>
             </tr>
         }

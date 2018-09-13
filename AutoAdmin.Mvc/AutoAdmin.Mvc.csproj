@@ -78,12 +78,15 @@
   <ItemGroup>
     <Compile Include="Abstraction\IModelAttribute.cs" />
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
+    <Compile Include="Attributes\FileAttribute.cs" />
+    <Compile Include="Attributes\IgnoreAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Extensions\AttributeExtensions.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Helpers\QueryHelper.cs" />
+    <Compile Include="Helpers\RelationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Admin\Create.generated.cs">
       <AutoGen>True</AutoGen>
@@ -111,9 +114,7 @@
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

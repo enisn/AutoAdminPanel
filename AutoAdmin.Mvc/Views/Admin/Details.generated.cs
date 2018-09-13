@@ -120,7 +120,7 @@ WriteLiteral("    ");
 
             
             #line 32 "..\..\Views\Admin\Details.cshtml"
-Write(Html.ActionLink("Edit", "Edit", new { id = Model.GetPrimaryKey() }));
+Write(Html.ActionLink("Edit", "Edit", new { id = Model.GetPrimaryKeyValue() }));
 
             
             #line default

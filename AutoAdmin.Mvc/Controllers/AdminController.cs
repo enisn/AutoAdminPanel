@@ -14,6 +14,7 @@ namespace AutoAdmin.Mvc.Controllers
         public virtual ActionResult Index(string table)
         {
             var list = QueryHelper.GetMultiple(table);
+
             return View(list);
         }
         // GET: Admin/Details/5
@@ -28,9 +29,9 @@ namespace AutoAdmin.Mvc.Controllers
         {
             var model = QueryHelper.GetInstance(table);
 
-            foreach (var name in QueryHelper.GetRelationsNames(table))
+            foreach (var property in QueryHelper.GetRelationProperties(table))
             {
-                ViewData.Add(name, QueryHelper.GetMultiple(name));
+                ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType));
             }
 
             return View(model);
@@ -61,8 +62,8 @@ namespace AutoAdmin.Mvc.Controllers
         {
             var model = QueryHelper.Get(table, id);
 
-            foreach (var name in QueryHelper.GetRelationsNames(table))
-                ViewData.Add(name, QueryHelper.GetMultiple(name));
+            foreach (var property in QueryHelper.GetRelationProperties(table))
+                ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType));
 
             return View(model);
         }
@@ -92,8 +93,8 @@ namespace AutoAdmin.Mvc.Controllers
                 var edited = QueryHelper.GetInstance(table);
                 //edited.TryCopyFrom(collection);
 
-                foreach (var name in QueryHelper.GetRelationsNames(table))
-                    ViewData.Add(name, QueryHelper.GetMultiple(name));
+                foreach (var property in QueryHelper.GetRelationProperties(table))
+                    ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType));
 
                 return View(edited);
             }
