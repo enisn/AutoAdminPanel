@@ -94,6 +94,8 @@ namespace AutoAdmin.Mvc.Extensions
                         case Relation.OneToMany:
                         case Relation.ManyToMany:
                             var _add = property.PropertyType.GetMethod("Add");
+                            var _clear = property.PropertyType.GetMethod("Clear");
+                            _clear.Invoke(property.GetValue(to),null);
                             foreach (var id in from[property.Name].Split(','))
                                 _add.Invoke(property.GetValue(to), parameters: new[] { QueryHelper.Get(property.PropertyType.GetTableName(), id) });
                             break;

@@ -18,7 +18,7 @@ namespace AutoAdmin
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Configuration.Init(typeof(Models.NORTHWNDEntities));
+            Configuration.Init(typeof(Models.Conetwork_demoEntities));
         }
 
         protected void Application_Error(object sender, EventArgs e)

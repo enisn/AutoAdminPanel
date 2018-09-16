@@ -23,8 +23,9 @@ namespace AutoAdmin.Mvc.Extensions
             if (first != null)
             {
                 var pKeyType = first.GetType().GetPrimaryKeyType().IsGenericType ? first.GetType().GetPrimaryKeyType().GetGenericArguments()[0] : first.GetType().GetPrimaryKeyType();
-
-                var sList = new SelectList(collection, first.GetPrimaryKeyName(), null, selected != null ? Convert.ChangeType(selected, pKeyType) : selected);
+                var pKeyName = first.GetPrimaryKeyName();
+                //var selectedValue = selected != null ? Convert.ChangeType(selected, pKeyType) : selected;
+                var sList = new SelectList(collection, pKeyName,null,selected);
                 return sList;
             }
             else
@@ -76,7 +77,7 @@ namespace AutoAdmin.Mvc.Extensions
                         property.Name,
 
                         html.ViewData[property.Name]
-                                    .ToSelectList(html.ViewData.Model.GetForeignKeyFor(property.PropertyType)),
+                                    .ToSelectList(property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue()),
                                       new { @class = "selectpicker form-control" }
                         );
                 case Relation.ManyToMany:
