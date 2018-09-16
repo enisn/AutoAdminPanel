@@ -1,5 +1,6 @@
-﻿@model IEnumerable<object>
-
+﻿@*@model IEnumerable<object>*@
+@model IEnumerable
+@using System.Collections;
 @using AutoAdmin.Mvc.Extensions
 @{
     ViewBag.Title = "Index";
@@ -13,10 +14,12 @@
 </p>
 <table class="table">
     <tr>
-        @{ var properties = Model.FirstOrDefault()?.GetType().GetProperties(); }
+        @{
+            var properties = Model.GetType().GetGenericArguments()[0].GetProperties();
+        }
+
         @if (properties != null)
         {
-
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
@@ -24,7 +27,8 @@
                     continue;
                 }
                 <th>
-                    @property.Name
+                    @Html.AutoLabelFor(property)
+                    @*@property.Name*@
                     @*@Html.DisplayNameFor(x => property.GetValue(Model.First()))*@
                 </th>
             }
@@ -44,15 +48,15 @@
                     continue;
                 }
                 <td>
-                    @property.GetValue(item)
-                    @*@Html.Display(property.Name)*@
+                    @*@property.GetValue(item)*@
+                    @Html.AutoDisplayFor(property)
                 </td>
             }
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKey() }) |
-                @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKey() }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKey() })
+                @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }) |
+                @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() })
             </td>
         </tr>
     }

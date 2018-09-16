@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.AutoLabelFor(property, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.AutoEditorFor(property, new { @class = "form-control" })
+                @Html.AutoEditorFor(property@*, new { @class = "form-control" }*@)
                 @Html.AutoValidationMessageFor(property, new { @class = "text-danger" })
             </div>
         </div>

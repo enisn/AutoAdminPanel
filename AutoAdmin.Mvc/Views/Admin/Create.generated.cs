@@ -130,7 +130,13 @@ WriteLiteral("                ");
 
             
             #line 22 "..\..\Views\Admin\Create.cshtml"
-           Write(Html.AutoEditorFor(property, new { @class = "form-control" }));
+           Write(Html.AutoEditorFor(property
+            
+            #line default
+            #line hidden
+            
+            #line 22 "..\..\Views\Admin\Create.cshtml"
+                                                                                 ));
 
             
             #line default

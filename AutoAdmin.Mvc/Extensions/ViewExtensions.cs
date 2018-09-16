@@ -50,13 +50,15 @@ namespace AutoAdmin.Mvc.Extensions
             //return value.GetType().GetProperties().FirstOrDefault(x => x.PropertyType.IsGenericType ? x.PropertyType.GetGenericArguments()[0] == type : x.PropertyType == type);
         }
         /// <summary>
-        /// 
+        /// Generates a editor for current property
         /// </summary>
-        public static MvcHtmlString AutoEditorFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes = null)
+        public static MvcHtmlString AutoEditorFor<T>(this HtmlHelper<T> html, PropertyInfo property, object htmlAttributes = null)
         {
             if (property.HasAttribute(typeof(KeyAttribute)) || property.HasAttribute(typeof(IgnoreAttribute)))
-                return html.Hidden(property.Name);
+                return MvcHtmlString.Empty;
 
+            //if (property.HasAttribute(typeof(IgnoreAttribute)))
+            //    return html.Hidden(property.Name);
 
             var _relation = property.GetRelation();
             switch (_relation)
@@ -71,24 +73,26 @@ namespace AutoAdmin.Mvc.Extensions
 
                     return html.DropDownList(
 
-                        property.PropertyType.GetTypePrimaryKeyName(),
+                        property.Name,
 
                         html.ViewData[property.Name]
                                     .ToSelectList(html.ViewData.Model.GetForeignKeyFor(property.PropertyType)),
-                                      new { @class = "selectpicker" }
+                                      new { @class = "selectpicker form-control" }
                         );
                 case Relation.ManyToMany:
                     return html.DropDownList(html.ViewData.Model.GetPropertyFromType(property.PropertyType)?.Name,
                        html.ViewData[property.Name].ToSelectList(),
-                       new { @class = "selectpicker", multiple = "multiple" });
+                       new { @class = "selectpicker form-control", multiple = "multiple" });
                 case Relation.None:
-                    return html.Editor(property.Name);
+                    if (property.PropertyType == typeof(bool))
+                        return MvcHtmlString.Create("");
+                    return html.Editor(property.Name, new { htmlAttributes = htmlAttributes ?? new { @class = "form-control" } });
                 default:
                     break;
             }
             return html.ActionLink("Could not found editor for", "Index", "Admin", new { table = property.DeclaringType.Name });
         }
-        public static MvcHtmlString AutoDisplayFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes = null)
+        public static MvcHtmlString AutoDisplayFor<T>(this HtmlHelper<T> html, PropertyInfo property, object htmlAttributes = null)
         {
             if (property.HasAttribute(typeof(KeyAttribute)) || property.HasAttribute(typeof(IgnoreAttribute)))
                 return MvcHtmlString.Empty;
@@ -98,10 +102,10 @@ namespace AutoAdmin.Mvc.Extensions
                 case Relation.None:
                     return html.Display(property.Name);
                 case Relation.OneToOne:
-                    return html.ActionLink(property.GetValue(html.ViewData.Model)?.ToString(), "Details", new { table = property.PropertyType.Name, id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
+                    return html.ActionLink(/*property.GetValue(html.ViewData.Model)?.ToString()*/"View", "Details", new { table = property.PropertyType.Name, id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
 
                 case Relation.OneToMany:
-                    return html.ActionLink(property.GetValue(html.ViewData.Model)?.ToString(), "Index", new RouteValueDictionary(new Dictionary<string, object>()
+                    return html.ActionLink(/*property.GetValue(html.ViewData.Model)?.ToString()*/"View All", "Index", new RouteValueDictionary(new Dictionary<string, object>()
                     {
                         { "table",( property.PropertyType.IsConstructedGenericType ?  property.PropertyType.GetGenericArguments()[0] : property.PropertyType).GetTableName() },
                         { property.DeclaringType.GetTypePrimaryKeyName(), html.ViewData.Model.GetPrimaryKeyValue() },
@@ -115,7 +119,7 @@ namespace AutoAdmin.Mvc.Extensions
             return html.Display(property.Name);
 
         }
-        public static MvcHtmlString AutoLabelFor(this HtmlHelper<object> html, PropertyInfo property, object htmlAttributes = null)
+        public static MvcHtmlString AutoLabelFor<T>(this HtmlHelper<T> html, PropertyInfo property, object htmlAttributes = null)
         {
             if (property.HasAttribute(typeof(KeyAttribute)) || property.HasAttribute(typeof(IgnoreAttribute)))
                 return MvcHtmlString.Empty;

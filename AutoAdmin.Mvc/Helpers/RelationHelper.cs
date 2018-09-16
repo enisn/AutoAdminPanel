@@ -80,26 +80,14 @@ namespace AutoAdmin.Mvc.Helpers
 
             bool isCollection = propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(ICollection<>);
             var properties = isCollection ? propertyType.GetGenericArguments()[0].GetProperties() : propertyType.GetProperties();
-            //var from = isCollection ? property.PropertyType.GetGenericArguments()[0] : property.PropertyType;
+
             foreach (var targetProperty in properties)
             {
-                if (targetProperty.PropertyType == property.DeclaringType.BaseType)                
+                if (targetProperty.PropertyType == property.DeclaringType.BaseType || targetProperty.PropertyType == property.DeclaringType)                
                     return isCollection ? Relation.OneToMany : Relation.OneToOne;
-                //try
-                //{
 
-                //    var t1 = targetProperty.PropertyType.GetGenericArguments()[0];
-                //    var d1 = property.DeclaringType;
-                //    var t2 = targetProperty.PropertyType.GetGenericParameterConstraints();
-                //    var t3 = targetProperty.PropertyType.GetGenericTypeDefinition();
-                //}
-                //catch (Exception ex)
-                //{
-                //}
-
-                if (targetProperty.PropertyType.IsConstructedGenericType && targetProperty.PropertyType.GetGenericArguments()[0] == property.DeclaringType.BaseType)                
-                    return isCollection ? Relation.ManyToMany : Relation.ManyToOne;
-                
+                if (targetProperty.PropertyType.IsConstructedGenericType && (targetProperty.PropertyType.GetGenericArguments()[0] == property.DeclaringType.BaseType || targetProperty.PropertyType.GetGenericArguments()[0] == property.DeclaringType))                
+                    return isCollection ? Relation.ManyToMany : Relation.ManyToOne;                
             }
             return Relation.None;
         }

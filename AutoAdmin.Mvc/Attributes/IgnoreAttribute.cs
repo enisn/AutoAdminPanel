@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace AutoAdmin.Mvc.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    sealed class IgnoreAttribute : Attribute
+    public sealed partial class IgnoreAttribute : Attribute, Abstraction.IModelAttribute
     {
         /// <summary>
         /// AutoAdmin.Mvc.Attributes.IgnoreState is not implemented yet! It works as IgnoreState.All the type of System.Type is imp
@@ -18,12 +19,24 @@ namespace AutoAdmin.Mvc.Attributes
             
         }
 
-        public enum IgnoreState
+        public string EditorClass { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string DisplayClass { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsValidated { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Func<dynamic, bool> ValidationExpression { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public MvcHtmlString GetDisplayHtml()
         {
-            All,
-            Index,
-            Create,
-            Edit,
+            throw new NotImplementedException();
+        }
+
+        public MvcHtmlString GetEditorHtml()
+        {
+            throw new NotImplementedException();
+        }
+
+        public MvcHtmlString GetValidationHtml()
+        {
+            throw new NotImplementedException();
         }
     }
 }

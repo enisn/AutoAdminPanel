@@ -80,6 +80,7 @@
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="Attributes\FileAttribute.cs" />
     <Compile Include="Attributes\IgnoreAttribute.cs" />
+    <Compile Include="Attributes\IgnoreAttribute.IgnoreState.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Extensions\AttributeExtensions.cs" />

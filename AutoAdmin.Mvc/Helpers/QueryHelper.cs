@@ -60,54 +60,76 @@ namespace AutoAdmin.Mvc.Helpers
             }
         }
 
+        public static IEnumerable GetMultiple(string table, params object[] ids)
+        {
+            //using (var ctx = Configuration.NewContext())
+            //{
+            var ctx = Configuration.Context;
+            string query = $"SELECT * FROM dbo.[{table.Replace('_', ' ')}] WHERE ";
+            foreach (string id in ids)
+            {
+                query += $"{table.GetTablePrimayKeyName()} = {id} OR ";
+            }
+            query = query.Remove(query.Length - 4, 3);
+
+            var result = ctx.Table(table).SqlQuery(query).ToListAsync().Result;
+            return result;
+            //}
+        }
+
 
         public static IEnumerable GetMultiple(string table, NameValueCollection filters)
         {
             if (filters?.Count > 0 == false)
                 return GetMultiple(table);
 
-            using (var ctx = Configuration.NewContext())
-            {
-                string query = $"SELECT * FROM dbo.{table} WHERE ";
-                foreach (string key in filters)
-                {
-                    query += $"{key} = {filters[key]} AND ";
-                }
-                query = query.Remove(query.Length - 5, 4);
+            //using (var ctx = Configuration.NewContext())
+            //{
+            var ctx = Configuration.Context;
 
-                var result = ctx.Table(table).SqlQuery(query).ToListAsync().Result;
-                return result;
+            string query = $"SELECT * FROM dbo.[{table.Replace('_', ' ')}] WHERE ";
+            foreach (string key in filters)
+            {
+                query += $"{key} = {filters[key]} AND ";
             }
+            query = query.Remove(query.Length - 5, 4);
+
+            var result = ctx.Table(table).SqlQuery(query).ToListAsync().Result;
+            return result;
+            //}
         }
 
         public static IEnumerable GetMultiple(Type tableType)
         {
-            using (var ctx = Configuration.NewContext())
-            {
-                if (tableType.IsGenericType) tableType = tableType.GetGenericArguments()[0];
-                return ctx.Set(tableType).ToListAsync().Result;
-            }
+            //using (var ctx = Configuration.NewContext())
+            //{
+            var ctx = Configuration.Context;
+            if (tableType.IsGenericType) tableType = tableType.GetGenericArguments()[0];
+            return ctx.Set(tableType).ToListAsync().Result;
+            //}
         }
         public static void Add(string table, object entity)
         {
-            using (var ctx = (DbContext)Activator.CreateInstance(Configuration.ctxType))
-            {
-                ctx.Set(Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0]).Add(entity);
-                ctx.SaveChanges();
-            }
+            //using (var ctx = (DbContext)Activator.CreateInstance(Configuration.ctxType))
+            //{
+            var ctx = Configuration.Context;
+            ctx.Set(Configuration.ctxType.GetProperty(table).PropertyType.GetGenericArguments()[0]).Add(entity);
+            ctx.SaveChanges();
+            //}
         }
 
         public static void Delete(string table, object id)
         {
-            using (var ctx = Configuration.NewContext())
-            {
-                var _pKeyType = ctx.TableTypeOf(table).GetPrimaryKeyType();
-                if (_pKeyType.IsGenericType)
-                    _pKeyType = _pKeyType.GetGenericArguments()[0];
+            //using (var ctx = Configuration.NewContext())
+            //{
+            var ctx = Configuration.Context;
+            var _pKeyType = ctx.TableTypeOf(table).GetPrimaryKeyType();
+            if (_pKeyType.IsGenericType)
+                _pKeyType = _pKeyType.GetGenericArguments()[0];
 
-                ctx.Table(table).Remove(ctx.Table(table).Find(Convert.ChangeType(id, _pKeyType)));
-                ctx.SaveChanges();
-            }
+            ctx.Table(table).Remove(ctx.Table(table).Find(Convert.ChangeType(id, _pKeyType)));
+            ctx.SaveChanges();
+            //}
             //Configuration.Context.Table(table).Remove(Get(table, id));
             //Configuration.Context.SaveChanges();
         }

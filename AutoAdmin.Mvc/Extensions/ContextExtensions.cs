@@ -25,12 +25,11 @@ namespace AutoAdmin.Mvc.Extensions
         {
             return ctx.Set(ctx.GetType().GetProperty(tableName).PropertyType.GetGenericArguments()[0]);
         }
-
         public static IQueryable GenericTable(this DbContext ctx, string tableName)
         {
             var property = ctx.GetType().GetProperty(tableName);
             var method = ctx.GetType().GetMethod("Set", new Type[0]).MakeGenericMethod(property.PropertyType);
-            return (IQueryable) method.Invoke(ctx, new object[0]);
+            return (IQueryable)method.Invoke(ctx, new object[0]);
         }
         /// <summary>
         /// To find table T type from DbSet&lt;T&gt; 
@@ -42,10 +41,8 @@ namespace AutoAdmin.Mvc.Extensions
         {
             return ctx.GetType().GetProperty(tableName)?.PropertyType.GetGenericArguments()[0];
         }
-
         public static string GetTableName(this Type type)
         {
-
             if (type.IsValueType || type == typeof(String) || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)))
                 return null;
             return Configuration.ctxType.GetProperties().FirstOrDefault(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericArguments()[0] == (type.IsGenericType ? type.GetGenericArguments()[0] : type))?.Name;
@@ -69,29 +66,53 @@ namespace AutoAdmin.Mvc.Extensions
         /// </summary>
         /// <param name="to">Properties will be copied to this object</param>
         /// <param name="from">Properties will be copied from</param>
+        /// <param name="tableName">Properties will be copied to tablename</param>
         /// <returns></returns>
-        public static object CopyFrom(this object to, NameValueCollection from)
+        public static object CopyFrom(this object to, NameValueCollection from, string tableName)
         {
             foreach (var property in to.GetType().GetProperties())
             {
-                if (from[property.Name] == null) continue;
-
-                Type convertedType = property.PropertyType;
-                if (property.PropertyType.IsGenericType)
+                try
                 {
-                    convertedType = property.PropertyType.GetGenericArguments()[0];
-                }
+                    if (from[property.Name] == null) continue;
+                    var relation = property.GetRelation();
+                    Type convertedType = property.PropertyType;
+                    if (property.PropertyType.IsGenericType)
+                        convertedType = property.PropertyType.GetGenericArguments()[0];
+
 
 #if DEBUG
-                var _test = from[property.Name];
+                    var _test = from[property.Name];
 #endif
+                    switch (relation)
+                    {
 
-
-                if (convertedType == typeof(Boolean)) //for the html CheckBox "true,false" bug
-                    property.SetValue(to, from[property.Name].Contains("true"));
-                else
-                    property.SetValue(to,
-                        Convert.ChangeType(from[property.Name], convertedType));
+                        case Relation.OneToOne:
+                        case Relation.ManyToOne:
+                            property.SetValue(to, QueryHelper.Get(tableName, from[property.Name]));
+                            break;
+                        case Relation.OneToMany:
+                        case Relation.ManyToMany:
+                            var _add = property.PropertyType.GetMethod("Add");
+                            foreach (var id in from[property.Name].Split(','))
+                                _add.Invoke(property.GetValue(to), parameters: new[] { QueryHelper.Get(property.PropertyType.GetTableName(), id) });
+                            break;
+                        case Relation.None:
+                            {
+                                if (convertedType == typeof(Boolean)) //for the html CheckBox "true,false" bug
+                                    property.SetValue(to, from[property.Name].Contains("true"));
+                                else
+                                    property.SetValue(to,
+                                        Convert.ChangeType(from[property.Name], convertedType));
+                            }
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                    continue;
+                }
             }
             return to;
         }
@@ -112,14 +133,17 @@ namespace AutoAdmin.Mvc.Extensions
 
                     Type convertedType = property.PropertyType;
                     if (property.PropertyType.IsGenericType)
-                    {
                         convertedType = property.PropertyType.GetGenericArguments()[0];
-                    }
+
 #if DEBUG
                     var _test = from[property.Name];
 #endif
-                    property.SetValue(to,
-                        Convert.ChangeType(from[property.Name], convertedType));
+
+                    if (convertedType == typeof(bool)) //for the html CheckBox "true,false" bug from hidden chechbox for bootstrap
+                        property.SetValue(to, from[property.Name].Contains("true"));
+                    else
+                        property.SetValue(to,
+                                        Convert.ChangeType(from[property.Name], convertedType));
                 }
                 catch (Exception ex)
                 {
@@ -128,44 +152,6 @@ namespace AutoAdmin.Mvc.Extensions
                 }
             }
             return result;
-        }
-
-        public static bool IsManyToOneWith(this object value, string tableWith)
-        {
-            return value.GetType().IsManyToOneWith(tableWith);
-        }
-        public static bool IsManyToOneWith(this Type type, string tableWith)
-        {
-            var tableTypeWith = Configuration.ctxType.GetProperty(tableWith).PropertyType.GetGenericArguments()[0];
-            foreach (var property in tableTypeWith.GetProperties())
-            {
-                if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericArguments()[0] == type)
-                    return true;
-            }
-
-            return tableTypeWith.GetProperties().Any(x => x.PropertyType.IsGenericParameter && x.PropertyType.GetGenericArguments()[0] == type);
-        }
-
-        public static bool IsManyToManyWith(this object value, string tableWith)
-        {
-            return value.GetType().IsManyToManyWith(tableWith);
-        }
-        public static bool IsManyToManyWith(this Type type, string tableWith)
-        {
-            var _rootProp = Configuration.ctxType.GetProperty(tableWith);
-            //var _rootProp = type.GetProperty(tableWith);
-            if (_rootProp != null && _rootProp.PropertyType.IsGenericType)
-            {
-                var searchedProp = _rootProp.PropertyType.GetGenericArguments()[0];
-                //Type _tableWithType = _rootProp.PropertyType.GetGenericArguments()[0];
-                return type.GetProperties().Any(x => x.PropertyType.IsGenericType && x.PropertyType.GetGenericArguments()[0] == searchedProp);
-            }
-            return false;
-        }
-
-        public static bool IsDropdownValue(this object value, PropertyInfo property)
-        {
-            return value.GetType().IsDropdownValue(property);
         }
         public static bool IsDropdownValue(this Type value, PropertyInfo property)
         {

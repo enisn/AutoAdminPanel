@@ -2,6 +2,7 @@
 using AutoAdmin.Mvc.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace AutoAdmin.Mvc.Controllers
     {
         public virtual ActionResult Index(string table)
         {
-            var list = QueryHelper.GetMultiple(table,Request.QueryString);
+            var list = QueryHelper.GetMultiple(table, Request.QueryString);
 
             return View(list);
         }
@@ -43,9 +44,17 @@ namespace AutoAdmin.Mvc.Controllers
         {
             try
             {
+#if DEBUG
+                Debug.WriteLine("________________\n________________\n________________\n");
+                foreach (string key in collection)
+                {
+                    Debug.WriteLine($"[{key}] = {collection[key]} ");
+                }
+                Debug.WriteLine("________________\n________________\n________________\n");
+#endif
                 var model = QueryHelper.GetInstance(table);
 
-                model.CopyFrom(collection);
+                model.CopyFrom(collection,table);
 
                 QueryHelper.Add(table, model);
                 return RedirectToAction("Index");
@@ -80,7 +89,7 @@ namespace AutoAdmin.Mvc.Controllers
                 object edited = QueryHelper.Get(table, id);
                 // TODO: Add update logic here
 
-                edited.CopyFrom(collection);
+                edited.CopyFrom(collection,table);
 
                 QueryHelper.Update(table, edited, id);
 

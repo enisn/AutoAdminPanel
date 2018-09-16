@@ -9,6 +9,7 @@
 
 namespace AutoAdmin.Models
 {
+    using AutoAdmin.Mvc.Attributes;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,7 @@ namespace AutoAdmin.Models
         public string ContactName { get; set; }
         public string ContactTitle { get; set; }
         public string Address { get; set; }
+        [Ignore(IgnoreAttribute.IgnoreState.Edit | IgnoreAttribute.IgnoreState.Index)]
         public string City { get; set; }
         public string Region { get; set; }
         public string PostalCode { get; set; }
