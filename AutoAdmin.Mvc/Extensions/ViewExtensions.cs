@@ -64,7 +64,7 @@ namespace AutoAdmin.Mvc.Extensions
             switch (_relation)
             {
                 case Relation.OneToOne:
-                    return html.ActionLink("OneToOne Action", "Edit", "Admin", new { table = property.PropertyType.Name }, new { @class = "btn btn-primary" });
+                    return html.Editor(property.Name, new { htmlAttributes = htmlAttributes ?? new { @class = "form-control" } });
                 case Relation.OneToMany:
                     //dropdown
                     return html.ActionLink("OneToMany Action", "Edit", "Admin", new { table = property.PropertyType.Name }, new { @class = "btn btn-primary" });
