@@ -14,9 +14,6 @@ namespace AutoAdmin.Mvc.Extensions
         {
             return value.GetCustomAttributes(attribute, false).Count() > 0;
         }
-
-
-
         public static string GetPrimaryKeyName(this object value)
         {
             foreach (var property in value.GetType().GetProperties())
@@ -24,7 +21,6 @@ namespace AutoAdmin.Mvc.Extensions
                 if (property.HasAttribute(typeof(KeyAttribute)))
                     return property.Name;
             }
-
             return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID")).Name;
         }
 
@@ -35,7 +31,6 @@ namespace AutoAdmin.Mvc.Extensions
                 if (property.HasAttribute(typeof(KeyAttribute)))
                     return property.PropertyType;
             }
-
             return value.GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID"))?.PropertyType;
         }
         public static string GetPrimaryKeyName(this Type type)

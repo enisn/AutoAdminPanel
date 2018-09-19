@@ -109,7 +109,7 @@ namespace AutoAdmin.Mvc.Extensions
                     return html.ActionLink(/*property.GetValue(html.ViewData.Model)?.ToString()*/"View All", "Index", new RouteValueDictionary(new Dictionary<string, object>()
                     {
                         { "table",( property.PropertyType.IsConstructedGenericType ?  property.PropertyType.GetGenericArguments()[0] : property.PropertyType).GetTableName() },
-                        { property.DeclaringType.GetTypePrimaryKeyName(), html.ViewData.Model.GetPrimaryKeyValue() },
+                        { property.DeclaringType.GetTypePrimaryKeyName(),$"'{html.ViewData.Model.GetPrimaryKeyValue()}'" },
                     }));
 
                 case Relation.ManyToOne:

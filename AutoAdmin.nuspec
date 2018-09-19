@@ -3,7 +3,7 @@
   <metadata>
     <!-- Required elements-->
     <id>AutoAdmin.Mvc</id>
-    <version>0.9.0</version>
+    <version>0.9.1</version>
     <authors>Enis Necipoglu &amp; Ahmet Gurbuz</authors>
 
      <!--License and project URLs provide links for the gallery--> 
@@ -59,10 +59,7 @@
       Your menu and your admin panel is ready to launch !!!!
 
     </summary>
-
-
-
-
+    
     <dependencies>
       <dependency id="EntityFramework" version="6.2.0" />
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.6" />
