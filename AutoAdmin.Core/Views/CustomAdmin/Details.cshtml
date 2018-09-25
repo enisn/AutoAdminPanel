@@ -1,0 +1,30 @@
+﻿@model object
+@using AutoAdmin.Mvc.Core.Extensions;
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @foreach (var property in Model.GetType().GetProperties())
+        {
+            <dt>
+                @Html.AutoLabelFor(property)
+            </dt>
+
+            <dd>
+                @Html.AutoDisplayFor(property)
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.GetPrimaryKeyValue() }) |
+    @Html.ActionLink("Delete", "Delete", new {  id = Model.GetPrimaryKeyValue() }) |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable
+@using System.Collections;
+@using AutoAdmin.Mvc.Core.Extensions;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var properties = Model?.GetType().GetGenericArguments()[0].GetProperties();
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var property in properties)
+            {
+                if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
+                {
+                    continue;
+                }
+                @Html.AutoLabelFor(property)
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                @foreach (var property in item.GetProperties())
+                {
+                    if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
+                    {
+                        continue;
+                    }
+                    <td>
+                        @Html.AutoDisplayFor(property)
+                    </td>
+                }
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
