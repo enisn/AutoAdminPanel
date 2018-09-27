@@ -21,7 +21,7 @@ namespace AutoAdmin.Mvc.Extensions
                 if (property.HasAttribute(typeof(KeyAttribute)))
                     return property.Name;
             }
-            return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID")).Name;
+            return value.GetType().GetProperties().FirstOrDefault(x => x.Name.ToUpperInvariant().EndsWith("ID"))?.Name;
         }
 
         public static Type GetPrimaryKeyType(this Type value)
@@ -76,7 +76,7 @@ namespace AutoAdmin.Mvc.Extensions
         }
         public static object GetPrimaryKeyValue(this object value)
         {
-            return value.GetType().GetProperty(value.GetPrimaryKeyName())?.GetValue(value);
+            return value.GetType().GetProperty(value.GetType().GetPrimaryKeyName())?.GetValue(value);
         }
         public static object GetForeignKeyFor(this object value, Type propertyType)
         {

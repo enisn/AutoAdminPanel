@@ -46,7 +46,7 @@ namespace ASP
             #line 3 "..\..\Views\Admin\Edit.cshtml"
   
     // ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 
             
             #line default

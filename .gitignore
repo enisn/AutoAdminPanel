@@ -407,3 +407,4 @@ __pycache__/
 *.edmx
 *.tt
 *.diagram
+*.cshtml

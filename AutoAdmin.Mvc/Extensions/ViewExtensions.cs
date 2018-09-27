@@ -25,7 +25,9 @@ namespace AutoAdmin.Mvc.Extensions
                 var pKeyType = first.GetType().GetPrimaryKeyType().IsGenericType ? first.GetType().GetPrimaryKeyType().GetGenericArguments()[0] : first.GetType().GetPrimaryKeyType();
                 var pKeyName = first.GetPrimaryKeyName();
                 //var selectedValue = selected != null ? Convert.ChangeType(selected, pKeyType) : selected;
-                var sList = new SelectList(collection, pKeyName,null,selected);
+
+                var sList = new SelectList(collection, pKeyName, null, selected);
+                //var sList = new SelectList(collection, pKeyName, null, selected);
                 return sList;
             }
             else
@@ -75,18 +77,19 @@ namespace AutoAdmin.Mvc.Extensions
                     return html.DropDownList(
 
                         property.Name,
-
-                        html.ViewData[property.Name]
-                                    .ToSelectList(property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue()),
+                        (SelectList)null,
+                        //html.ViewData[property.Name]
+                        //            .ToSelectList(property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue()),
                                       new { @class = "selectpicker form-control" }
                         );
                 case Relation.ManyToMany:
                     return html.DropDownList(html.ViewData.Model.GetPropertyFromType(property.PropertyType)?.Name,
-                       html.ViewData[property.Name].ToSelectList(),
+                        (SelectList)null
+                      /* html.ViewData[property.Name].ToSelectList()*/,
                        new { @class = "selectpicker form-control", multiple = "multiple" });
                 case Relation.None:
-                    if (property.PropertyType == typeof(bool))
-                        return MvcHtmlString.Create("");
+                    //if (property.PropertyType == typeof(bool))
+                    //    return MvcHtmlString.Create("");
                     return html.Editor(property.Name, new { htmlAttributes = htmlAttributes ?? new { @class = "form-control" } });
                 default:
                     break;

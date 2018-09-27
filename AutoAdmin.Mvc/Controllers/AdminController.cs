@@ -32,7 +32,7 @@ namespace AutoAdmin.Mvc.Controllers
 
             foreach (var property in QueryHelper.GetRelationProperties(table))
             {
-                ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType));
+                ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType).ToSelectList());
             }
 
             return View(model);
@@ -72,7 +72,7 @@ namespace AutoAdmin.Mvc.Controllers
             var model = QueryHelper.Get(table, id);
 
             foreach (var property in QueryHelper.GetRelationProperties(table))
-                ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType));
+                ViewData.Add(property.Name, QueryHelper.GetMultiple(property.PropertyType).ToSelectList(property.GetValue(model)?.GetPrimaryKeyValue()));
 
             return View(model);
         }

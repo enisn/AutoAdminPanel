@@ -45,8 +45,9 @@
                         continue;
                     }
                     <td>
-                        @property.GetValue(item)
+                        @*@Html.AutoDisplayFor(property)*@
                         @*@Html.Display(property.Name)*@
+                        @property.GetValue(item)
                     </td>
                 }
 

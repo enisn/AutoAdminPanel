@@ -9,6 +9,7 @@
 
 namespace AutoAdmin.Models
 {
+    using AutoAdmin.Mvc.Attributes;
     using System;
     using System.Collections.Generic;
     
@@ -23,6 +24,7 @@ namespace AutoAdmin.Models
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public Nullable<int> SupplierID { get; set; }
+        [Ignore(IgnoreAttribute.IgnoreState.All)]
         public Nullable<int> CategoryID { get; set; }
         public string QuantityPerUnit { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }

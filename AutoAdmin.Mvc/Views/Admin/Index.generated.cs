@@ -183,23 +183,25 @@ WriteLiteral("            <tr>\r\n\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                    <td>\r\n");
+WriteLiteral("                    <td>\r\n                        ");
+
+WriteLiteral("\r\n                        ");
+
+WriteLiteral("\r\n");
 
 WriteLiteral("                        ");
 
             
-            #line 48 "..\..\Views\Admin\Index.cshtml"
+            #line 50 "..\..\Views\Admin\Index.cshtml"
                    Write(property.GetValue(item));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                        ");
-
 WriteLiteral("\r\n                    </td>\r\n");
 
             
-            #line 51 "..\..\Views\Admin\Index.cshtml"
+            #line 52 "..\..\Views\Admin\Index.cshtml"
                 }
 
             
@@ -210,7 +212,7 @@ WriteLiteral("\r\n                <td>\r\n");
 WriteLiteral("                    ");
 
             
-            #line 54 "..\..\Views\Admin\Index.cshtml"
+            #line 55 "..\..\Views\Admin\Index.cshtml"
                Write(Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.EditClass }));
 
             
@@ -221,7 +223,7 @@ WriteLiteral(" |\r\n");
 WriteLiteral("                    ");
 
             
-            #line 55 "..\..\Views\Admin\Index.cshtml"
+            #line 56 "..\..\Views\Admin\Index.cshtml"
                Write(Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.DetailClass }));
 
             
@@ -232,7 +234,7 @@ WriteLiteral(" |\r\n");
 WriteLiteral("                    ");
 
             
-            #line 56 "..\..\Views\Admin\Index.cshtml"
+            #line 57 "..\..\Views\Admin\Index.cshtml"
                Write(Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.DeleteClass }));
 
             
@@ -241,7 +243,7 @@ WriteLiteral("                    ");
 WriteLiteral("\r\n                </td>\r\n            </tr>\r\n");
 
             
-            #line 59 "..\..\Views\Admin\Index.cshtml"
+            #line 60 "..\..\Views\Admin\Index.cshtml"
         }
 
             
