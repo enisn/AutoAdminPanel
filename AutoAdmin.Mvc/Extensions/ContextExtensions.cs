@@ -89,7 +89,7 @@ namespace AutoAdmin.Mvc.Extensions
 
                         case Relation.OneToOne:
                         case Relation.ManyToOne:
-                            property.SetValue(to, QueryHelper.Get(tableName, from[property.Name]));
+                            property.SetValue(to, QueryHelper.Get(property.PropertyType.GetTableName(), from[property.Name]));
                             break;
                         case Relation.OneToMany:
                         case Relation.ManyToMany:

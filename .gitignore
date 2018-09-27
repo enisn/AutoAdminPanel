@@ -403,3 +403,7 @@ __pycache__/
 /Shopping/App_Start/RouteConfig.cs
 /Shopping/App_Start/BundleConfig.cs
 /Shopping/Content/css/Style.css
+*.cs
+*.edmx
+*.tt
+*.diagram

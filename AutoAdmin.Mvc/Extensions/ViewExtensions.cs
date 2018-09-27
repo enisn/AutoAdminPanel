@@ -101,12 +101,14 @@ namespace AutoAdmin.Mvc.Extensions
             switch (property.GetRelation())
             {
                 case Relation.None:
+                    if (property.HasAttribute(typeof(ImageSourceAttribute)))
+                        return MvcHtmlString.Create($"<img src=\"{property.GetValue(html.ViewData.Model)}\" width=\"180\"/>");
                     return html.Display(property.Name);
                 case Relation.OneToOne:
-                    return html.ActionLink(/*property.GetValue(html.ViewData.Model)?.ToString()*/"View", "Details", new { table = property.PropertyType.Name, id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
+                    return html.ActionLink("View", "Details", new { table = property.PropertyType.Name, id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
 
                 case Relation.OneToMany:
-                    return html.ActionLink(/*property.GetValue(html.ViewData.Model)?.ToString()*/"View All", "Index", new RouteValueDictionary(new Dictionary<string, object>()
+                    return html.ActionLink("View All", "Index", new RouteValueDictionary(new Dictionary<string, object>()
                     {
                         { "table",( property.PropertyType.IsConstructedGenericType ?  property.PropertyType.GetGenericArguments()[0] : property.PropertyType).GetTableName() },
                         { property.DeclaringType.GetTypePrimaryKeyName(),$"'{html.ViewData.Model.GetPrimaryKeyValue()}'" },
