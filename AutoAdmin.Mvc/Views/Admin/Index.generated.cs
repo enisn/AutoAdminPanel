@@ -27,6 +27,12 @@ namespace ASP
     using System.Web.UI;
     using System.Web.WebPages;
     
+    #line 4 "..\..\Views\Admin\Index.cshtml"
+    using AutoAdmin.Mvc;
+    
+    #line default
+    #line hidden
+    
     #line 3 "..\..\Views\Admin\Index.cshtml"
     using AutoAdmin.Mvc.Extensions;
     
@@ -46,8 +52,10 @@ WriteLiteral("    ");
 
 WriteLiteral("    ");
 
+WriteLiteral("    ");
+
             
-            #line 4 "..\..\Views\Admin\Index.cshtml"
+            #line 5 "..\..\Views\Admin\Index.cshtml"
       
         ViewBag.Title = "Index";
         Layout = "~/Views/Shared/_Layout.cshtml";
@@ -60,26 +68,34 @@ WriteLiteral("\r\n\r\n    <h2>Index</h2>\r\n\r\n    <p>\r\n");
 WriteLiteral("        ");
 
             
-            #line 12 "..\..\Views\Admin\Index.cshtml"
-   Write(Html.ActionLink("Create New", "Create"));
+            #line 13 "..\..\Views\Admin\Index.cshtml"
+   Write(Html.ActionLink("Create New", "Create", null, new { @class = Configuration.IndexConfiguration.AddClass }));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n    </p>\r\n    <table");
 
-WriteLiteral(" class=\"table\"");
+WriteAttribute("class", Tuple.Create(" class=\"", 363), Tuple.Create("\"", 415)
+            
+            #line 15 "..\..\Views\Admin\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 371), Tuple.Create<System.Object, System.Int32>(Configuration.IndexConfiguration.TableClass
+            
+            #line default
+            #line hidden
+, 371), false)
+);
 
 WriteLiteral(">\r\n        <tr>\r\n");
 
             
-            #line 16 "..\..\Views\Admin\Index.cshtml"
+            #line 17 "..\..\Views\Admin\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 16 "..\..\Views\Admin\Index.cshtml"
+            #line 17 "..\..\Views\Admin\Index.cshtml"
                var properties = Model.FirstOrDefault()?.GetType().GetProperties(); 
             
             #line default
@@ -87,13 +103,13 @@ WriteLiteral(">\r\n        <tr>\r\n");
 WriteLiteral("\r\n");
 
             
-            #line 17 "..\..\Views\Admin\Index.cshtml"
+            #line 18 "..\..\Views\Admin\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 17 "..\..\Views\Admin\Index.cshtml"
+            #line 18 "..\..\Views\Admin\Index.cshtml"
              if (properties != null)
             {
 
@@ -112,7 +128,7 @@ WriteLiteral("                    <th>\r\n");
 WriteLiteral("                        ");
 
             
-            #line 27 "..\..\Views\Admin\Index.cshtml"
+            #line 28 "..\..\Views\Admin\Index.cshtml"
                    Write(property.Name);
 
             
@@ -123,7 +139,7 @@ WriteLiteral("\r\n                        ");
 WriteLiteral("\r\n                    </th>\r\n");
 
             
-            #line 30 "..\..\Views\Admin\Index.cshtml"
+            #line 31 "..\..\Views\Admin\Index.cshtml"
                 }
 
             }
@@ -134,13 +150,13 @@ WriteLiteral("\r\n                    </th>\r\n");
 WriteLiteral("            <th></th>\r\n        </tr>\r\n\r\n");
 
             
-            #line 36 "..\..\Views\Admin\Index.cshtml"
+            #line 37 "..\..\Views\Admin\Index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 36 "..\..\Views\Admin\Index.cshtml"
+            #line 37 "..\..\Views\Admin\Index.cshtml"
          foreach (var item in Model)
         {
 
@@ -150,13 +166,13 @@ WriteLiteral("            <th></th>\r\n        </tr>\r\n\r\n");
 WriteLiteral("            <tr>\r\n\r\n");
 
             
-            #line 40 "..\..\Views\Admin\Index.cshtml"
+            #line 41 "..\..\Views\Admin\Index.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 40 "..\..\Views\Admin\Index.cshtml"
+            #line 41 "..\..\Views\Admin\Index.cshtml"
                  foreach (var property in properties)
                 {
                     if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
@@ -172,7 +188,7 @@ WriteLiteral("                    <td>\r\n");
 WriteLiteral("                        ");
 
             
-            #line 47 "..\..\Views\Admin\Index.cshtml"
+            #line 48 "..\..\Views\Admin\Index.cshtml"
                    Write(property.GetValue(item));
 
             
@@ -183,7 +199,7 @@ WriteLiteral("\r\n                        ");
 WriteLiteral("\r\n                    </td>\r\n");
 
             
-            #line 50 "..\..\Views\Admin\Index.cshtml"
+            #line 51 "..\..\Views\Admin\Index.cshtml"
                 }
 
             
@@ -194,19 +210,8 @@ WriteLiteral("\r\n                <td>\r\n");
 WriteLiteral("                    ");
 
             
-            #line 53 "..\..\Views\Admin\Index.cshtml"
-               Write(Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }));
-
-            
-            #line default
-            #line hidden
-WriteLiteral(" |\r\n");
-
-WriteLiteral("                    ");
-
-            
             #line 54 "..\..\Views\Admin\Index.cshtml"
-               Write(Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }));
+               Write(Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.EditClass }));
 
             
             #line default
@@ -217,7 +222,18 @@ WriteLiteral("                    ");
 
             
             #line 55 "..\..\Views\Admin\Index.cshtml"
-               Write(Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() }));
+               Write(Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.DetailClass }));
+
+            
+            #line default
+            #line hidden
+WriteLiteral(" |\r\n");
+
+WriteLiteral("                    ");
+
+            
+            #line 56 "..\..\Views\Admin\Index.cshtml"
+               Write(Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.DeleteClass }));
 
             
             #line default
@@ -225,7 +241,7 @@ WriteLiteral("                    ");
 WriteLiteral("\r\n                </td>\r\n            </tr>\r\n");
 
             
-            #line 58 "..\..\Views\Admin\Index.cshtml"
+            #line 59 "..\..\Views\Admin\Index.cshtml"
         }
 
             

@@ -9,9 +9,9 @@ namespace AutoAdmin.Mvc.Abstraction
 {
     public interface IModelAttribute
     {
-        MvcHtmlString GetDisplayHtml();
-        MvcHtmlString GetEditorHtml();
-        MvcHtmlString GetValidationHtml();
+        MvcHtmlString GetDisplayHtml(object value);
+        MvcHtmlString GetEditorHtml(object value);
+        MvcHtmlString GetValidationHtml(object value);
         string EditorClass { get; set; }
         string DisplayClass { get; set; }
         bool IsValidated { get; set; }

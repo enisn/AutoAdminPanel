@@ -81,6 +81,8 @@
     <Compile Include="Attributes\FileAttribute.cs" />
     <Compile Include="Attributes\IgnoreAttribute.cs" />
     <Compile Include="Attributes\IgnoreAttribute.IgnoreState.cs" />
+    <Compile Include="Attributes\ImageSourceAttribute.cs" />
+    <Compile Include="Configs\TableConfig.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Extensions\AttributeExtensions.cs" />

@@ -1,7 +1,7 @@
-﻿@*@model IEnumerable<object>*@
-@model IEnumerable
-@using System.Collections;
+﻿@model IEnumerable<object>
+
 @using AutoAdmin.Mvc.Extensions
+@using AutoAdmin.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,16 +10,14 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create",null,new { @class=Configuration.IndexConfiguration.AddClass })
 </p>
-<table class="table">
+<table class="@Configuration.IndexConfiguration.TableClass">
     <tr>
-        @{
-            var properties = Model.GetType().GetGenericArguments()[0].GetProperties();
-        }
-
+        @{ var properties = Model.FirstOrDefault()?.GetType().GetProperties(); }
         @if (properties != null)
         {
+
             foreach (var property in properties)
             {
                 if (property.PropertyType.IsGenericType || (property.PropertyType != typeof(string) && property.PropertyType.IsClass))
@@ -27,8 +25,7 @@
                     continue;
                 }
                 <th>
-                    @Html.AutoLabelFor(property)
-                    @*@property.Name*@
+                    @property.Name
                     @*@Html.DisplayNameFor(x => property.GetValue(Model.First()))*@
                 </th>
             }
@@ -48,15 +45,15 @@
                     continue;
                 }
                 <td>
-                    @*@property.GetValue(item)*@
-                    @Html.AutoDisplayFor(property)
+                    @property.GetValue(item)
+                    @*@Html.Display(property.Name)*@
                 </td>
             }
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }) |
-                @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() })
+                @Html.ActionLink("Edit", "Edit", new { id = item.GetPrimaryKeyValue() }, new { @class = Configuration.IndexConfiguration.EditClass }) |
+                @Html.ActionLink("Details", "Details", new { id = item.GetPrimaryKeyValue() },null, htmlAttributes: new { @class = Configuration.IndexConfiguration.DetailClass }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.GetPrimaryKeyValue() },null, htmlAttributes: new { @class = Configuration.IndexConfiguration.DeleteClass })
             </td>
         </tr>
     }

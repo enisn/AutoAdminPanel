@@ -24,17 +24,17 @@ namespace AutoAdmin.Mvc.Attributes
         public bool IsValidated { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Func<dynamic, bool> ValidationExpression { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public MvcHtmlString GetDisplayHtml()
+        public MvcHtmlString GetDisplayHtml(object value)
         {
             throw new NotImplementedException();
         }
 
-        public MvcHtmlString GetEditorHtml()
+        public MvcHtmlString GetEditorHtml(object value)
         {
             throw new NotImplementedException();
         }
 
-        public MvcHtmlString GetValidationHtml()
+        public MvcHtmlString GetValidationHtml(object value)
         {
             throw new NotImplementedException();
         }

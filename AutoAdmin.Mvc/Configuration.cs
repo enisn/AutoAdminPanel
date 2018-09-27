@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoAdmin.Mvc.Configs;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -23,7 +24,9 @@ namespace AutoAdmin.Mvc
 
         #region DoNotTouch
         public static DbContext NewContext() => (DbContext)Activator.CreateInstance(ctxType);
-        public static DbContext Context { get; private set; } 
+        public static DbContext Context { get; private set; }
         #endregion
+
+        public static IndexConfig IndexConfiguration { get; set; } = new IndexConfig();
     }
 }
