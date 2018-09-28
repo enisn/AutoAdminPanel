@@ -3,7 +3,7 @@
   <metadata>
     <!-- Required elements-->
     <id>AutoAdmin.Mvc</id>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
     <authors>Enis Necipoglu &amp; Ahmet Gurbuz</authors>
 
      <!--License and project URLs provide links for the gallery--> 
@@ -18,7 +18,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
     <!-- Any details about this particular release -->
-    <releaseNotes>Released</releaseNotes>
+    <releaseNotes>Selected dropdown bug solved on Edit</releaseNotes>
 
     <title>Provides automaticly an admin panel for your all tabled in your database</title>
     <description>Provides a completely admin panel into your project</description>
