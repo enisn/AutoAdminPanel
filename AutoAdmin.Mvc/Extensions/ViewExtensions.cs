@@ -108,7 +108,7 @@ namespace AutoAdmin.Mvc.Extensions
                         return MvcHtmlString.Create($"<img src=\"{property.GetValue(html.ViewData.Model)}\" width=\"180\"/>");
                     return html.Display(property.Name);
                 case Relation.OneToOne:
-                    return html.ActionLink("View", "Details", new { table = property.PropertyType.Name, id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
+                    return html.ActionLink("View", "Details", new { table = property.PropertyType.GetTableName(), id = property.GetValue(html.ViewData.Model)?.GetPrimaryKeyValue() });
 
                 case Relation.OneToMany:
                     return html.ActionLink("View All", "Index", new RouteValueDictionary(new Dictionary<string, object>()

@@ -2,7 +2,7 @@
 <hr />
 <p> Provides an Admin Panel into your project.</p>
 
-<a href="https://www.nuget.org/packages/AutoAdmin.Mvc/"><img src="https://img.shields.io/badge/Nuget-0.9.2-blue.svg" /></a>
+<a href="https://www.nuget.org/packages/AutoAdmin.Mvc/"><img src="https://img.shields.io/badge/Nuget-0.9.3-blue.svg" /></a>
 
 
 ## SET-UP
