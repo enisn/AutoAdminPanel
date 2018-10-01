@@ -183,21 +183,21 @@ WriteLiteral("            <tr>\r\n\r\n");
             
             #line default
             #line hidden
-WriteLiteral("                    <td>\r\n                        ");
-
-WriteLiteral("\r\n                        ");
-
-WriteLiteral("\r\n");
+WriteLiteral("                    <td>\r\n");
 
 WriteLiteral("                        ");
 
             
-            #line 50 "..\..\Views\Admin\Index.cshtml"
-                   Write(property.GetValue(item));
+            #line 48 "..\..\Views\Admin\Index.cshtml"
+                   Write(Html.AutoDisplayFor(property));
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n                        ");
+
+WriteLiteral("\r\n                        ");
+
 WriteLiteral("\r\n                    </td>\r\n");
 
             
